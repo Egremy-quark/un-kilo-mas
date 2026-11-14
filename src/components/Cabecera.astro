@@ -17,7 +17,7 @@ const a = (ancla: string) => (enInicio ? ancla : `/${ancla}`);
       <a href={a('#casos')}>Casos reales</a>
       <a href={a('#rutina')}>Empieza gratis</a>
       <a href={a('#calculadoras')}>Calculadoras</a>
-      <a href="/coaching" aria-current={enCoaching ? 'page' : undefined}>Coaching</a>
+      <a class="cabecera-nav-siempre" href="/coaching" aria-current={enCoaching ? 'page' : undefined}>Coaching</a>
     </nav>
     <a class="boton boton-compacto" href={a('#rutina')}>Empieza gratis</a>
   </div>

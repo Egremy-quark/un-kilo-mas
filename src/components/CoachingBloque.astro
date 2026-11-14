@@ -1,0 +1,44 @@
+---
+import { sitio } from '../config/sitio';
+import { clasePendiente } from '../lib/pendiente';
+
+const incluye = [
+  ['Programas', sitio.coaching.incluye.programas],
+  ['Mesociclos', sitio.coaching.incluye.mesociclos],
+  ['Nutrición', sitio.coaching.incluye.nutricion],
+  ['Corrección de técnica', sitio.coaching.incluye.tecnica],
+] as const;
+---
+
+<section class="banda banda-tinta coaching-bloque" id="coaching" aria-labelledby="coaching-titulo">
+  <div class="columna coaching-interior">
+    <div class="coaching-texto">
+      <p class="kicker kicker-claro">El coaching personal</p>
+      <h2 id="coaching-titulo">Entrena con <em>Yohan</em></h2>
+      <p>
+        Para ti si entrenas 3 o 4 días por semana, tienes poco tiempo y quieres un plan claro.
+        <span class="solo-escritorio">
+          Incluye programas, mesociclos, nutrición y corrección de técnica.
+        </span>
+      </p>
+      <ul class="coaching-incluye solo-movil">
+        {
+          incluye.map(([titulo]) => (
+            <li>{titulo}</li>
+          ))
+        }
+      </ul>
+    </div>
+    <div class="coaching-datos">
+      <div class="coaching-dato">
+        <p>Cupo</p>
+        <p class:list={['coaching-cifra', clasePendiente(sitio.coaching.cupo)]}>{sitio.coaching.cupo}</p>
+      </div>
+      <div class="coaching-dato">
+        <p>Precio</p>
+        <p class:list={['coaching-cifra', clasePendiente(sitio.coaching.precio)]}>{sitio.coaching.precio}</p>
+      </div>
+    </div>
+    <a class="boton boton-ancho coaching-cta" href="/coaching">Quiero entrar al coaching</a>
+  </div>
+</section>

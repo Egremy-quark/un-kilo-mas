@@ -1,0 +1,33 @@
+---
+interface Props {
+  variante?: 'simple' | 'video';
+}
+
+const { variante = 'simple' } = Astro.props;
+---
+
+<svg class="figura-persona" viewBox="-200 -690 400 700" aria-hidden="true">
+  <rect x="-100" y="-190" width="64" height="190" rx="32" fill="#1C1E1A"></rect>
+  <rect x="36" y="-190" width="64" height="190" rx="32" fill="#1C1E1A"></rect>
+  <rect x="-150" y="-650" width="300" height="520" rx="150" fill="#E07A3E"></rect>
+  {
+    variante === 'video' ? (
+      <>
+        <path
+          d="M -62 -494 Q -45 -518 -28 -494 M 28 -494 Q 45 -518 62 -494"
+          stroke="#1C1E1A"
+          stroke-width="10"
+          stroke-linecap="round"
+          fill="none"
+        ></path>
+        <path d="M -44 -460 Q 0 -454 44 -460 Q 36 -404 0 -402 Q -36 -404 -44 -460 Z" fill="#1C1E1A"></path>
+      </>
+    ) : (
+      <>
+        <circle cx="-45" cy="-500" r="20" fill="#1C1E1A"></circle>
+        <circle cx="45" cy="-500" r="20" fill="#1C1E1A"></circle>
+        <ellipse cx="0" cy="-438" rx="17" ry="21" fill="#1C1E1A"></ellipse>
+      </>
+    )
+  }
+</svg>

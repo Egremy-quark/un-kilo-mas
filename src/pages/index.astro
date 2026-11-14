@@ -1,11 +1,18 @@
 ---
 import Base from '../layouts/Base.astro';
+import AvisoMedico from '../components/AvisoMedico.astro';
 import Camino from '../components/Camino.astro';
+import Cierre from '../components/Cierre.astro';
+import CoachingBloque from '../components/CoachingBloque.astro';
+import Comparativa from '../components/Comparativa.astro';
 import Hero from '../components/Hero.astro';
+import Preguntas from '../components/Preguntas.astro';
+import QuienEsYohan from '../components/QuienEsYohan.astro';
 import RamaNutricion from '../components/RamaNutricion.astro';
 import RamaRutina from '../components/RamaRutina.astro';
 import Testimonios from '../components/Testimonios.astro';
 import TresPasos from '../components/TresPasos.astro';
+import Videos from '../components/Videos.astro';
 import { sitio } from '../config/sitio';
 import { ACTIVIDADES, type Actividad } from '../lib/calculos';
 import { esPendiente } from '../lib/pendiente';
@@ -200,6 +207,14 @@ const mostrarComida = !esPendiente(sitio.calculadoras.proteina.comidaMexicana);
   </section>
 
   {sitio.nutricion.activo && <RamaNutricion />}
+
+  <Comparativa />
+  <CoachingBloque />
+  <QuienEsYohan />
+  <Videos />
+  <Preguntas />
+  <AvisoMedico />
+  <Cierre />
 </Base>
 
 <script>

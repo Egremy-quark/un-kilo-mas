@@ -1,0 +1,55 @@
+---
+import { Image } from 'astro:assets';
+import { sitio } from '../config/sitio';
+import { clasePendiente } from '../lib/pendiente';
+import { urlInstagram } from '../lib/marca';
+import yohanHoy from '../assets/testimonios/yohan-hoy.jpg';
+
+const instagram = urlInstagram(sitio.yohan.instagram);
+---
+
+<section class="banda banda-hueso" id="yohan" aria-labelledby="yohan-titulo">
+  <div class="columna yohan-interior">
+    <div class="yohan-marco">
+      <Image
+        src={yohanHoy}
+        alt="Yohan en el gimnasio"
+        width={800}
+        height={1000}
+        format="webp"
+        loading="lazy"
+      />
+      <div class="yohan-marco-texto solo-movil">
+        <p class="yohan-nombre">
+          Yohan · <a href={instagram} rel="noopener noreferrer">@{sitio.yohan.instagram}</a>
+        </p>
+        <ul class="yohan-creditos">
+          <li>
+            Entrenador certificado <span class={clasePendiente(sitio.yohan.certificado)}>{sitio.yohan.certificado}</span>
+          </li>
+          <li>Carrera de nutrición</li>
+          <li>Competidor de powerlifting</li>
+          <li>Competidor de culturismo natural</li>
+        </ul>
+      </div>
+    </div>
+    <div class="yohan-texto">
+      <h2 id="yohan-titulo">Quién es <em>Yohan</em></h2>
+      <ul class="yohan-creditos solo-escritorio">
+        <li>
+          Entrenador certificado <span class={clasePendiente(sitio.yohan.certificado)}>{sitio.yohan.certificado}</span>
+        </li>
+        <li>Carrera de nutrición</li>
+        <li>Competidor de powerlifting y de culturismo natural</li>
+      </ul>
+      <p>
+        Empezó a entrenar a los 15 años, solo, en un pueblito donde no tenía quién le enseñara. Hoy su
+        trabajo es adaptar el entrenamiento a tu vida, y no tu vida al entrenamiento.
+      </p>
+      <div class="yohan-enlaces">
+        <a href="/coaching#historia">Leer su historia</a>
+        <a class="solo-escritorio" href={instagram} rel="noopener noreferrer">@{sitio.yohan.instagram}</a>
+      </div>
+    </div>
+  </div>
+</section>

@@ -1,0 +1,33 @@
+---
+import { sitio } from '../config/sitio';
+import { clasePendiente } from '../lib/pendiente';
+import Papoi from './figuras/Papoi.astro';
+import Youssef from './figuras/Youssef.astro';
+
+const instagramMarca = sitio.instagramMarca;
+const pendiente = instagramMarca.includes('[POR DEFINIR]');
+---
+
+<section class="banda banda-blanco" id="videos" aria-labelledby="videos-titulo">
+  <div class="columna videos-interior">
+    <div class="videos-figuras" aria-hidden="true">
+      <Papoi variante="video" />
+      <Youssef variante="video" />
+    </div>
+    <div class="videos-texto">
+      <h2 id="videos-titulo">Aprende con <em>Papoi y Youssef</em></h2>
+      <p>Cada semana Papoi la riega y Youssef se lo deja simple. Un concepto por vídeo.</p>
+      {
+        pendiente ? (
+          <p class="videos-enlace">
+            Síguenos en Instagram <span class={clasePendiente(instagramMarca)}>{instagramMarca}</span>
+          </p>
+        ) : (
+          <a class="videos-enlace" href={`https://instagram.com/${instagramMarca.replace(/^@/, '')}`}>
+            Síguenos en Instagram @{instagramMarca.replace(/^@/, '')}
+          </a>
+        )
+      }
+    </div>
+  </div>
+</section>

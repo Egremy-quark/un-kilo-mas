@@ -1,0 +1,72 @@
+---
+import Papoi from './figuras/Papoi.astro';
+import Youssef from './figuras/Youssef.astro';
+
+const filasMovil = [
+  { etiqueta: 'Qué hacer', cuenta: 'Lo que salga en el Para ti', plan: 'Un bloque claro, de casa al gym' },
+  { etiqueta: 'Cuánto cargar', cuenta: 'Adivinar', plan: 'Tu número, y un kilo más' },
+  { etiqueta: 'Cuántos días', cuenta: 'Todos, hasta que se acaba el tiempo', plan: '3 o 4 que caben en tu semana' },
+  { etiqueta: 'Si te atoras', cuenta: 'Empezar otra rutina', plan: 'Yohan ajusta tu plan' },
+] as const;
+
+const filasEscritorio = [
+  { etiqueta: 'Qué hacer', cuenta: 'Lo que salga en el Para ti', plan: 'Un bloque claro, de casa al gym' },
+  { etiqueta: 'Cuánto cargar', cuenta: 'Adivinar', plan: 'Tu número, y un kilo más' },
+  { etiqueta: 'Cuántos días', cuenta: 'Todos, hasta que se acaba el tiempo', plan: '3 o 4 que caben en tu semana' },
+  { etiqueta: 'Técnica', cuenta: 'Aprender sobre la marcha', plan: 'Primero la base, después el peso' },
+  { etiqueta: 'Si te atoras', cuenta: 'Empezar otra rutina', plan: 'Yohan ajusta tu plan' },
+] as const;
+---
+
+<section class="banda banda-hueso" id="comparativa" aria-labelledby="comparativa-titulo">
+  <div class="columna">
+    <h2 id="comparativa-titulo">Por tu cuenta o <em>con un plan</em></h2>
+
+    <div class="comparativa-movil">
+      <div class="comparativa-figuras">
+        <div class="comparativa-figura">
+          <Papoi />
+          <p>Por tu cuenta</p>
+        </div>
+        <div class="comparativa-figura">
+          <Youssef />
+          <p>Con Un Kilo Más</p>
+        </div>
+      </div>
+      {
+        filasMovil.map((fila) => (
+          <div class="comparativa-fila">
+            <p class="comparativa-etiqueta">{fila.etiqueta}</p>
+            <div class="comparativa-par">
+              <p class="card comparativa-celda">{fila.cuenta}</p>
+              <p class="card comparativa-celda comparativa-celda-lima">{fila.plan}</p>
+            </div>
+          </div>
+        ))
+      }
+    </div>
+
+    <div class="comparativa-escritorio">
+      <table class="comparativa-tabla">
+        <thead>
+          <tr>
+            <th></th>
+            <th>Por tu cuenta</th>
+            <th>Con Un Kilo Más</th>
+          </tr>
+        </thead>
+        <tbody>
+          {
+            filasEscritorio.map((fila) => (
+              <tr>
+                <th scope="row">{fila.etiqueta}</th>
+                <td>{fila.cuenta}</td>
+                <td>{fila.plan}</td>
+              </tr>
+            ))
+          }
+        </tbody>
+      </table>
+    </div>
+  </div>
+</section>

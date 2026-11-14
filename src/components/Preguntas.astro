@@ -1,0 +1,53 @@
+---
+const preguntas = [
+  {
+    pregunta: 'Me da pena ir al gym, ¿qué hago?',
+    respuesta: 'Empieza en casa con la Rutina 01. Cuando llegues al gym, ya sabrás qué hacer.',
+    abierta: true,
+  },
+  {
+    pregunta: '¿Necesito experiencia?',
+    respuesta: 'No. Aquí se empieza de verdad desde cero, en tu casa, sin equipo.',
+  },
+  {
+    pregunta: '¿Cuántos días tengo que entrenar?',
+    respuesta: '3 o 4 que caben en tu semana. No hace falta todos los días.',
+  },
+  {
+    pregunta: '¿La rutina gratis es personalizada?',
+    respuesta:
+      'No. La Rutina 01 y la 02 son generales. Si quieres que alguien ajuste tu plan, eso es el coaching de Yohan.',
+  },
+  {
+    pregunta: '¿Qué incluye el coaching y cuánto cuesta?',
+    respuesta:
+      'Programas, mesociclos, nutrición y corrección de técnica. Cupo y precio aún no están publicados.',
+  },
+  {
+    pregunta: '¿Las calculadoras son exactas?',
+    respuesta:
+      'Dan estimaciones. El resultado se queda en esta página. No sustituyen la valoración de un profesional de la salud.',
+  },
+  {
+    pregunta: '¿Qué pasa con mis datos?',
+    respuesta:
+      'Mientras el aviso de privacidad esté pendiente, no se pide el correo. Cuando se active, el aviso dirá para qué se usa.',
+  },
+] as const;
+---
+
+<section class="banda banda-hueso" id="preguntas" aria-labelledby="preguntas-titulo">
+  <div class="columna preguntas-interior">
+    <h2 id="preguntas-titulo">Preguntas <em>frecuentes</em></h2>
+    <div class="preguntas-lista">
+      {
+        preguntas.map((item) => (
+          <details class="pregunta" open={item.abierta ? true : undefined}>
+            <summary>{item.pregunta}</summary>
+            <p>{item.respuesta}</p>
+          </details>
+        ))
+      }
+    </div>
+  </div>
+</section>
