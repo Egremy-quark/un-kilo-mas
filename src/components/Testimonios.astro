@@ -1,0 +1,101 @@
+---
+import { Image } from 'astro:assets';
+import type { ImageMetadata } from 'astro';
+import { testimoniosAutorizados, type Testimonio } from '../config/sitio';
+
+interface Props {
+  limite?: number;
+  titulo?: boolean;
+}
+
+const { limite, titulo = false } = Astro.props;
+const archivos = import.meta.glob<{ default: ImageMetadata }>('../assets/testimonios/*.{jpg,jpeg,png,webp}', {
+  eager: true,
+});
+
+function fotoDe(nombre: string): ImageMetadata | undefined {
+  const entrada = Object.entries(archivos).find(([ruta]) => ruta.endsWith(`/${nombre}`));
+  return entrada?.[1].default;
+}
+
+const lista = testimoniosAutorizados().slice(0, limite);
+const mostrarTitulo = titulo && lista.length > 0;
+
+function altDe(item: Testimonio): string {
+  return `${item.nombre} antes y después de entrenar con Yohan`;
+}
+---
+
+{
+  lista.length > 0 && (
+    <div class="testimonios" data-carrusel-raiz>
+      {
+        mostrarTitulo && (
+          <h2 id="testimonios-titulo">
+            Gente ocupada, <em>años de constancia</em>
+          </h2>
+        )
+      }
+      <div class="carrusel-pista testimonios-pista">
+        {
+          lista.map((item) => {
+            const foto = fotoDe(item.foto);
+            return (
+              <article class="carrusel-tarjeta testimonio-tarjeta">
+                <div class="testimonio-foto">
+                  {foto ? (
+                    <Image
+                      src={foto}
+                      alt={altDe(item)}
+                      width={800}
+                      height={500}
+                      format="webp"
+                      loading="lazy"
+                    />
+                  ) : (
+                    <p>{altDe(item)}</p>
+                  )}
+                </div>
+                <p class="testimonio-nombre">{item.nombre}</p>
+                <p class="testimonio-perfil">{item.perfil}</p>
+                <p class="testimonio-texto">{item.texto}</p>
+                <p class="testimonio-tiempo">{item.tiempo}</p>
+              </article>
+            );
+          })
+        }
+      </div>
+      {
+        lista.length > 1 && (
+          <div class="carrusel-controles">
+            <div class="carrusel-puntos">
+              {lista.map((item, indice) => (
+                <button
+                  type="button"
+                  class="carrusel-punto"
+                  data-indice={indice}
+                  aria-label={`${item.nombre}, ${indice + 1} de ${lista.length}`}
+                  aria-current={indice === 0 ? 'true' : undefined}
+                />
+              ))}
+            </div>
+          </div>
+        )
+      }
+      <p class="testimonios-aviso">
+        Clientes reales del coaching personal de Yohan, después de años de constancia. Cada cuerpo
+        avanza a su ritmo; esto no es una promesa de resultados.
+      </p>
+    </div>
+  )
+}
+
+{
+  lista.length > 1 && (
+    <script>
+      import { iniciarCarrusel } from '../scripts/carrusel';
+      const raiz = document.querySelector<HTMLElement>('[data-carrusel-raiz]');
+      if (raiz) iniciarCarrusel(raiz);
+    </script>
+  )
+}

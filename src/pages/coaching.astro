@@ -1,11 +1,15 @@
 ---
+import { Image } from 'astro:assets';
 import Base from '../layouts/Base.astro';
 import GraficaMesociclo from '../components/GraficaMesociclo.astro';
 import Sello from '../components/Sello.astro';
+import Testimonios from '../components/Testimonios.astro';
 import { FASES_PROGRAMA } from '../datos/programa';
 import { sitio } from '../config/sitio';
 import { clasePendiente } from '../lib/pendiente';
 import { urlInstagram } from '../lib/marca';
+import yohanAntes from '../assets/testimonios/yohan-antes.jpg';
+import yohanHoy from '../assets/testimonios/yohan-hoy.jpg';
 
 const incluye = [
   ['Programas', sitio.coaching.incluye.programas],
@@ -16,6 +20,7 @@ const incluye = [
 
 const instagram = urlInstagram(sitio.yohan.instagram);
 const whatsappListo = /^\d{8,15}$/.test(sitio.coaching.whatsapp);
+const historia = sitio.yohan.historia;
 ---
 
 <Base
@@ -30,34 +35,48 @@ const whatsappListo = /^\d{8,15}$/.test(sitio.coaching.whatsapp);
       <p class="bajada">Para gente con poco tiempo que quiere entrenar con estructura.</p>
     </div>
 
-    <section class="bloque" id="historia" aria-labelledby="historia-titulo">
-      <h2 id="historia-titulo">Cómo empezó Yohan</h2>
-      <p>
-        Empezó a entrenar a los 15 años, solo, en un pueblito donde no había quién le enseñara. Aprendió por
-        su cuenta a entrenar y a alimentarse.
-      </p>
-      <p>
-        Estudió una ingeniería que odiaba y, al mismo tiempo, Entrenamiento Deportivo. Después estudió
-        Nutrición.
-      </p>
-      <p>
-        Lleva más de 10 años como entrenador. Su especialidad es sacar a la gente desde cero, adaptando el
-        entrenamiento a su vida y no su vida al entrenamiento.
-      </p>
-      <p>
-        Trabaja con gente normal y con poco tiempo: maestras, contadores, mamás. Gente que no se dedica a
-        esto.
-      </p>
-    </section>
+    {
+      historia.aprobadaPorYohan && (
+        <section class="bloque" id="historia" aria-labelledby="historia-titulo">
+          <h2 id="historia-titulo">{historia.titulo}</h2>
+          <div class="historia-fotos">
+            <figure>
+              <Image
+                src={yohanAntes}
+                alt="Yohan al empezar a entrenar"
+                width={640}
+                height={800}
+                format="webp"
+                loading="lazy"
+              />
+              <figcaption>Al inicio</figcaption>
+            </figure>
+            <figure>
+              <Image
+                src={yohanHoy}
+                alt="Yohan hoy"
+                width={640}
+                height={800}
+                format="webp"
+                loading="lazy"
+              />
+              <figcaption>Hoy</figcaption>
+            </figure>
+          </div>
+          {historia.parrafos.map((parrafo) => (
+            <p>{parrafo}</p>
+          ))}
+        </section>
+      )
+    }
 
     <section class="bloque" id="programa" aria-labelledby="programa-titulo">
       <h2 id="programa-titulo">El primer <em>mesociclo</em></h2>
       <GraficaMesociclo etiqueta="Mesociclo: las semanas suben y una semana es más suave." />
       <h3>Qué es un mesociclo</h3>
       <p>
-        Un bloque de semanas con una dirección. La carga sube y una semana baja para poder seguir. La
-        progresión 01 a 02 es el primer ejemplo trabajado de la marca: primero estabilidad sin peso, después
-        moverse con peso.
+        Un bloque de semanas con una dirección. La carga sube y una semana baja para poder seguir. Primero
+        estabilidad sin peso, después moverse con peso.
       </p>
       <ol class="fases">
         {
@@ -73,12 +92,7 @@ const whatsappListo = /^\d{8,15}$/.test(sitio.coaching.whatsapp);
       </ol>
       <p>Se termina la Rutina 01 antes de pasar a la Rutina 02.</p>
       <p class="fase-nota">
-        La Rutina 01, Base articular, se abre en la página principal, en #rutina, a cambio del correo. La
-        Rutina 02 es el paso siguiente del programa.
-      </p>
-      <p class="fase-nota">
-        Yohan también tiene el Pack de Rutinas completo y un programa de abdomen. En esta página el siguiente
-        paso es el coaching.
+        <a href="/#rutina">¿Aún no empiezas? La Rutina 01 es gratis</a>
       </p>
     </section>
 
@@ -91,13 +105,15 @@ const whatsappListo = /^\d{8,15}$/.test(sitio.coaching.whatsapp);
       </ul>
     </section>
 
+    <Testimonios titulo />
+
     <section class="bloque" aria-labelledby="incluye">
       <h2 id="incluye">Qué incluye</h2>
       <ul class="incluye">
         {
-          incluye.map(([titulo, texto]) => (
+          incluye.map(([tituloIncluye, texto]) => (
             <li>
-              <h3>{titulo}</h3>
+              <h3>{tituloIncluye}</h3>
               <p class={clasePendiente(texto)}>{texto}</p>
             </li>
           ))

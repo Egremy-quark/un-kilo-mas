@@ -1,9 +1,10 @@
 ---
 import GraficaMesociclo from './GraficaMesociclo.astro';
+import { sitio } from '../config/sitio';
 
 /**
- * Explicación corta de la marca. La suscripción y la app se nombran solo como etapas posteriores.
- * No tienen precio, fecha ni botón.
+ * Explicación corta de la marca, escrita para quien lee.
+ * La suscripción y la app no se nombran hasta que haya fecha.
  */
 ---
 
@@ -15,15 +16,18 @@ import GraficaMesociclo from './GraficaMesociclo.astro';
     <div class="quienes-ideas">
       <article>
         <h3>Qué somos</h3>
-        <p>Programas, mesociclos, nutrición y coaching, en números. Después, suscripción y app.</p>
+        <p>Lo básico para empezar, gratis. Y cuando quieras que alguien lo ajuste contigo, el coaching de Yohan.</p>
       </article>
       <article>
         <h3>Por qué crecemos con el cliente</h3>
-        <p>Primero un número, luego un plan, después seguimiento. Si no, se va al avanzar.</p>
+        <p>
+          Empiezas gratis, avanzas aquí mismo y nunca tienes que empezar de cero con otro entrenador que no te
+          conoce.
+        </p>
       </article>
       <article>
         <h3>Para qué sirve</h3>
-        <p>Entra gratis, avanza +1 y, si necesita más, sigue aquí con el mismo coach.</p>
+        <p>Entras gratis, avanzas +1 y, si necesitas más, sigues aquí con el mismo coach.</p>
       </article>
     </div>
 
@@ -36,34 +40,34 @@ import GraficaMesociclo from './GraficaMesociclo.astro';
       <a href="/coaching#historia">Leer su historia</a>
     </p>
 
-    <div class="camino" aria-label="Cómo crece Un Kilo Más">
-      <GraficaMesociclo etiqueta="El camino sube de a poco: calcular, entrenar y, más adelante, suscripción y app." />
-      <ol>
-        <li>
-          <p class="camino-cuando">Hoy</p>
-          <h3>Calcula gratis</h3>
-          <p>1RM, proteína y calorías.</p>
-        </li>
-        <li>
-          <p class="camino-cuando">Hoy</p>
-          <h3>Entrena con Yohan</h3>
-          <p>Coaching.</p>
-        </li>
-        <li class="camino-luego">
-          <p class="camino-cuando">Después</p>
-          <h3>Suscripción</h3>
-          <p>Próximamente.</p>
-        </li>
-        <li class="camino-luego">
-          <p class="camino-cuando">Al final</p>
-          <h3>App</h3>
-          <p>Próximamente.</p>
-        </li>
-      </ol>
-    </div>
-
-    <p class="quienes-cierre">
-      <a class="hero-enlace" href="/coaching">Entrena con Yohan</a>
-    </p>
+    {
+      sitio.mostrarHojaDeRuta && (
+        <div class="camino" aria-label="Cómo crece Un Kilo Más">
+          <GraficaMesociclo etiqueta="El camino sube de a poco: calcular, entrenar y, más adelante, suscripción y app." />
+          <ol>
+            <li>
+              <p class="camino-cuando">Hoy</p>
+              <h3>Calcula gratis</h3>
+              <p>1RM, proteína y calorías.</p>
+            </li>
+            <li>
+              <p class="camino-cuando">Hoy</p>
+              <h3>Coaching</h3>
+              <p>Con Yohan.</p>
+            </li>
+            <li class="camino-luego">
+              <p class="camino-cuando">Después</p>
+              <h3>Suscripción</h3>
+              <p>Próximamente.</p>
+            </li>
+            <li class="camino-luego">
+              <p class="camino-cuando">Al final</p>
+              <h3>App</h3>
+              <p>Próximamente.</p>
+            </li>
+          </ol>
+        </div>
+      )
+    }
   </div>
 </section>

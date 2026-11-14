@@ -1,3 +1,5 @@
+import { sitio } from '../config/sitio';
+
 /**
  * Programa para principiantes de Yohan. Ya existe: no es un producto nuevo.
  * Los detalles técnicos, el video y los casos de antes y después no se publican
@@ -24,26 +26,24 @@ export const FASES_PROGRAMA: FasePrograma[] = [
   {
     id: '02',
     nombre: 'Rutina 02',
-    titulo: 'Aprender a moverse',
+    titulo: sitio.programa.rutina02Nombre,
     donde: 'En el gimnasio',
     texto:
-      'Ya en el gimnasio. Aprender los movimientos básicos para empezar a ganar fuerza y técnica, con video de cada ejercicio y cómo progresar las cargas.',
+      'Ya en el gimnasio. Aprender los movimientos básicos para empezar a ganar fuerza y técnica, y cómo progresar las cargas.',
   },
 ];
-
-/** Pasos de la entrega en la web. No es un PDF ni un enlace de Drive. */
-export const PASOS_RUTINA_01 = [
-  { numero: '1', titulo: 'Ábrela' },
-  { numero: '2', titulo: 'Revísala completa' },
-  { numero: '3', titulo: 'Sigue la secuencia' },
-] as const;
 
 /**
  * [CONTENIDO POR YOHAN] URL del tutorial en video de la Rutina 01.
  * Vacío a propósito: no se incrusta nada hasta que Yohan entregue su video.
- * No usar videos de stock ni tutoriales de terceros.
  */
 export const TUTORIAL_RUTINA_01 = '';
+
+/**
+ * [CONTENIDO POR YOHAN] Video de cada ejercicio de la Rutina 02.
+ * No renderizar hasta que existan.
+ */
+export const VIDEOS_RUTINA_02 = '[CONTENIDO POR YOHAN]';
 
 /**
  * [CONTENIDO POR YOHAN] Ejercicios, series, cargas y duración de cada fase.
@@ -59,7 +59,7 @@ export const DETALLE_RUTINAS = '[CONTENIDO POR YOHAN]';
 export const ANTES_DESPUES = '[POR DEFINIR]';
 
 /**
- * [POR DEFINIR] Precio del programa, del Pack de Rutinas, del programa de abdomen y del coaching.
- * No tomar precios del PDF ni de Gumroad. No mostrar al visitante.
+ * [POR DEFINIR] Precio del programa y del coaching.
+ * No tomar precios de otros sitios. No mostrar al visitante.
  */
 export const PRECIO_PROGRAMA = '[POR DEFINIR]';

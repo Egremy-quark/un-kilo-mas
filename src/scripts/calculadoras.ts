@@ -10,11 +10,9 @@ import {
   type Unidad,
 } from '../lib/calculos';
 import { compartirResultado, type DatosTarjeta } from '../lib/compartir';
-import { enviarSuscripcion } from '../lib/correo';
 import { LINEAS_CALORIAS, lineas1rm, lineasProteina } from '../datos/fuentes';
 import { formatearNumero, leerDecimal, leerEntero } from '../lib/formato';
 import { medir } from '../lib/medicion';
-import { leerOrigen } from '../lib/origen';
 
 type IdCalculadora = '1rm' | 'proteina' | 'calorias';
 
@@ -83,12 +81,6 @@ function limpiarEstados(): void {
   if (correo) correo.textContent = '';
 }
 
-function pintarSiguiente1rm(id: IdCalculadora, hayResultado: boolean): void {
-  const siguiente = document.getElementById('siguiente-1rm');
-  if (!siguiente) return;
-  siguiente.hidden = !(id === '1rm' && hayResultado);
-}
-
 function pintar(id: IdCalculadora): void {
   limpiarEstados();
   const vacio = tomar<HTMLParagraphElement>('resultado-vacio');
@@ -101,14 +93,12 @@ function pintar(id: IdCalculadora): void {
     vacio.textContent = 'Pulsa Calcular. El resultado se queda en esta página.';
     lleno.hidden = true;
     acciones.hidden = true;
-    pintarSiguiente1rm(id, false);
     return;
   }
 
   vacio.hidden = true;
   lleno.hidden = false;
   acciones.hidden = false;
-  pintarSiguiente1rm(id, true);
   tomar('resultado-etiqueta').textContent = guardado.titulo;
   const cifra = tomar<HTMLSpanElement>('resultado-cifra');
   cifra.textContent = guardado.cifra;
@@ -440,47 +430,6 @@ function resultadoActual(): ResultadoGuardado | null {
   return guardados.get(activa) ?? null;
 }
 
-function textoResultado(datos: ResultadoGuardado): string {
-  const extra = datos.detalle.rango ? `. ${datos.detalle.rango}` : '';
-  return `${datos.titulo}: ${datos.cifra} ${datos.unidad}${extra}`;
-}
-
-function prepararCorreo(): void {
-  const form = document.getElementById('form-correo');
-  const estadoNodo = document.getElementById('correo-estado');
-  if (!(form instanceof HTMLFormElement) || !(estadoNodo instanceof HTMLParagraphElement)) return;
-  const estado = estadoNodo;
-  form.addEventListener('submit', (evento) => {
-    evento.preventDefault();
-    const correo = tomar<HTMLInputElement>('correo').value.trim();
-    const aviso = tomar<HTMLInputElement>('aviso-privacidad');
-    if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(correo)) {
-      estado.textContent = 'Escribe un correo válido, por ejemplo ana@correo.com.';
-      tomar<HTMLInputElement>('correo').focus();
-      return;
-    }
-    if (!aviso.checked) {
-      estado.textContent = 'Para enviarlo, acepta el aviso de privacidad.';
-      aviso.focus();
-      return;
-    }
-    const actual = resultadoActual();
-    void enviarSuscripcion({
-      correo,
-      calculadora: actual?.calculadora,
-      resultado: actual ? textoResultado(actual) : undefined,
-      origen: leerOrigen(),
-    }).then((respuesta) => {
-      estado.textContent = respuesta.mensaje;
-      if (respuesta.ok) {
-        medir('correo_enviado', { calculadora: actual?.calculadora ?? 'rutina' });
-        const entrega = document.getElementById('entrega-rutina');
-        if (entrega) entrega.hidden = false;
-      }
-    });
-  });
-}
-
 function prepararCompartir(): void {
   const boton = tomar<HTMLButtonElement>('compartir');
   const estado = tomar<HTMLParagraphElement>('compartir-estado');
@@ -567,5 +516,4 @@ export function iniciarCalculadoras(): void {
   }
 
   prepararCompartir();
-  prepararCorreo();
 }

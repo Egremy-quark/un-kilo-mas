@@ -1,12 +1,6 @@
 ---
-import { sitio } from '../config/sitio';
-import { TRAZO_MAS, TRAZO_UNO, urlInstagram } from '../lib/marca';
-
-/**
- * El nombre del certificado sigue [POR DEFINIR] en sitio.ts.
- * Este sello no lo muestra: solo «entrenador certificado» y «carrera de nutrición».
- */
-const instagram = urlInstagram(sitio.yohan.instagram);
+import Sello from './Sello.astro';
+import { TRAZO_MAS, TRAZO_UNO } from '../lib/marca';
 ---
 
 <section class="hero" aria-labelledby="hero-titulo">
@@ -33,17 +27,13 @@ const instagram = urlInstagram(sitio.yohan.instagram);
       />
     </svg>
   </div>
-  <h1 id="hero-titulo">Avanza <em>más</em></h1>
-  <p class="hero-frase">Tu 1RM, tu proteína y tus calorías.</p>
+  <h1 id="hero-titulo">Llega al gym <em>sabiendo qué hacer</em></h1>
+  <p class="hero-frase">
+    Empieza gratis en tu casa, a tu ritmo y sin que nadie te vea. Te guía Yohan, entrenador certificado.
+  </p>
   <div class="hero-acciones">
-    <a class="boton" href="#que-hacer">¿Qué quieres hacer?</a>
-    <a class="hero-enlace" href="/coaching">Entrena con Yohan</a>
+    <a class="boton" href="#rutina">Quiero la Rutina 01 gratis</a>
+    <a class="hero-enlace" href="#calculadoras">O calcula tu 1RM, tu proteína y tus calorías</a>
   </div>
-  <div class="hero-notas">
-    <p>Gratis y sin registrarte</p>
-    <p>
-      Yohan, <a href={instagram} rel="noopener noreferrer">@{sitio.yohan.instagram}</a>. Entrenador
-      certificado, carrera de nutrición.
-    </p>
-  </div>
+  <Sello compacto />
 </section>

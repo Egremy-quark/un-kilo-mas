@@ -530,10 +530,19 @@ select {
 }
 
 .caja-correo {
+  position: relative;
   margin-top: 0.5rem;
   padding: 1rem;
   border: 2px solid var(--linea);
   border-radius: 16px;
+}
+
+.trampa {
+  position: absolute;
+  left: -10000px;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
 }
 
 .caja-correo p:first-child {

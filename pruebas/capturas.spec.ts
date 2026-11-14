@@ -28,7 +28,9 @@ test('páginas y calculadoras con resultado', async ({ page }) => {
     await page.setViewportSize({ width: vista.width, height: vista.height });
     await page.goto('/');
     await listo(page);
-    await expect(page).toHaveTitle(/Calcula tu 1RM/);
+    await expect(page).toHaveTitle(/Llega al gym/);
+    await expect(page.getByRole('heading', { level: 1 })).toContainText('sabiendo qué hacer');
+    await expect(page.getByText('La Rutina 01 se abre muy pronto.')).toBeVisible();
     await page.screenshot({ path: `capturas/inicio-${vista.nombre}.png`, fullPage: true });
   }
 
@@ -42,6 +44,9 @@ test('páginas y calculadoras con resultado', async ({ page }) => {
     await expect(page.locator('#resultado-cifra')).toHaveAttribute('data-valor', '115');
     await expect(page.locator('#resultado-unidad')).toHaveText('kg');
     await expect(page.locator('#resultado-explicacion')).toContainText('Epley y Brzycki');
+    await expect(page.locator('#resultado-vivo')).toContainText(
+      'Promedio 114.6 kg, redondeado a 115 kg para poder cargarlo',
+    );
     await page.screenshot({ path: `capturas/1rm-${vista.nombre}.png`, fullPage: true });
   }
 

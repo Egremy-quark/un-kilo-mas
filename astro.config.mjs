@@ -1,9 +1,11 @@
 // @ts-check
 import { defineConfig } from 'astro/config';
+import vercel from '@astrojs/vercel';
 
-// Sitio estático. No va atado a Netlify, Vercel ni Cloudflare.
 export default defineConfig({
+  site: 'https://un-kilo-mas.vercel.app',
   output: 'static',
+  adapter: vercel(),
   compressHTML: true,
   build: {
     format: 'directory',

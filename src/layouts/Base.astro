@@ -14,9 +14,10 @@ interface Props {
 const { titulo, descripcion } = Astro.props;
 const tituloCompleto = `${titulo} | ${sitio.nombre}`;
 const dominioListo = !esPendiente(sitio.dominio) && sitio.dominio.includes('.');
-const origen = dominioListo ? `https://${sitio.dominio.replace(/^https?:\/\//, '')}` : '';
-const canonica = origen ? new URL(Astro.url.pathname, origen).href : undefined;
-const imagen = origen ? `${origen}/og.png` : '/og.png';
+const origenDominio = dominioListo ? `https://${sitio.dominio.replace(/^https?:\/\//, '')}` : '';
+const origen = Astro.site ?? (origenDominio ? new URL(origenDominio) : Astro.url);
+const canonica = new URL(Astro.url.pathname, origen).href;
+const imagen = new URL('/og.png', origen).href;
 ---
 
 <!doctype html>
@@ -46,9 +47,12 @@ const imagen = origen ? `${origen}/og.png` : '/og.png';
     <meta property="og:image" content={imagen} />
     <meta property="og:image:width" content="1200" />
     <meta property="og:image:height" content="630" />
-    <meta property="og:image:alt" content={`${sitio.nombre}. Calcula lo básico.`} />
+    <meta property="og:image:alt" content={`${sitio.nombre}. Llega al gym sabiendo qué hacer.`} />
     {canonica && <meta property="og:url" content={canonica} />}
     <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:image" content={imagen} />
+    <meta name="twitter:title" content={tituloCompleto} />
+    <meta name="twitter:description" content={descripcion} />
     <meta name="generator" content={Astro.generator} />
   </head>
   <body>

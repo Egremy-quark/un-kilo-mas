@@ -1,22 +1,22 @@
 ---
 import GraficaMesociclo from './GraficaMesociclo.astro';
-import { FASES_PROGRAMA, PASOS_RUTINA_01, TUTORIAL_RUTINA_01 } from '../datos/programa';
+import { capturaCorreoVisible } from '../config/sitio';
+import { rutina01 } from '../content/rutinas/01-base-articular';
+import { FASES_PROGRAMA } from '../datos/programa';
+import { esPendiente } from '../lib/pendiente';
 
-/**
- * Rama 2A del flujo. Progresión y entrega de la Rutina 01 en esta página.
- * La historia completa de Yohan sigue en /coaching. No es una página nueva.
- * TUTORIAL_RUTINA_01 queda vacío hasta que Yohan entregue su video.
- */
-const tutorial = TUTORIAL_RUTINA_01.trim();
+const tutorial = rutina01.tutorialUrl.trim();
+const formVisible = capturaCorreoVisible();
+const detalleListo = !esPendiente(rutina01.ejercicios);
 ---
 
 <section class="rama rama-rutina" id="rutina" aria-labelledby="rutina-titulo">
   <p class="rama-kicker">La rutina gratis</p>
   <h2 id="rutina-titulo">Empieza en tu casa. Llega al gym <em>listo</em>.</h2>
   <p>
-    Los programas de fuera asumen que ya tuviste educación física. Aquí se empieza desde cero, de
-    verdad: en México la mayoría no trae esas bases, y a mucha gente le da pena o ansiedad entrar a
-    un gym sin saber qué hacer.
+    Muchos programas para principiantes asumen que ya tuviste una buena educación física. Yohan lo ve a
+    diario: la mayoría de la gente nunca la tuvo. Y a mucha gente le da pena o ansiedad entrar a un gym
+    sin saber qué hacer.
   </p>
 
   <GraficaMesociclo etiqueta="Mesociclo: primero en casa, después en el gimnasio." />
@@ -36,9 +36,8 @@ const tutorial = TUTORIAL_RUTINA_01.trim();
   <p>Se termina la Rutina 01 antes de pasar a la Rutina 02.</p>
   <p class="rama-cierre">Llegas al gym sabiendo qué hacer y qué mancuerna agarrar.</p>
   <p>
-    Quien termina el bloque en casa llega sabiendo llenar el programa y progresar cargas. Bajan las
-    lesiones y los dolores porque ya trae la base articular. Yohan ya no tiene que explicar lo básico
-    a cada cliente nuevo.
+    Lo que Yohan ha visto en sus clientes: quienes terminan este bloque llegan al gym sabiendo llenar su
+    programa y progresar sus cargas, y con menos molestias.
   </p>
   {
     tutorial && (
@@ -48,30 +47,39 @@ const tutorial = TUTORIAL_RUTINA_01.trim();
     )
   }
 
-  <form id="form-correo" class="caja-correo" novalidate>
-    <p>La Rutina 01, Base articular, a cambio de tu correo.</p>
-    <div class="campo">
-      <label for="correo">Correo</label>
-      <input id="correo" name="correo" type="email" inputmode="email" autocomplete="email" />
-    </div>
-    <label class="casilla">
-      <input id="aviso-privacidad" type="checkbox" name="aviso" />
-      <span>Acepto el <a href="/privacidad">aviso de privacidad</a>.</span>
-    </label>
-    <button class="boton" type="submit">Quiero la Rutina 01 gratis</button>
-    <p class="estado" id="correo-estado"></p>
-  </form>
+  {
+    formVisible ? (
+      <form id="form-correo" class="caja-correo" novalidate>
+        <p>La Rutina 01, Base articular, a cambio de tu correo.</p>
+        <div class="campo">
+          <label for="correo">Correo</label>
+          <input id="correo" name="correo" type="email" inputmode="email" autocomplete="email" />
+        </div>
+        <div class="trampa" aria-hidden="true">
+          <label for="empresa">Empresa</label>
+          <input id="empresa" name="empresa" type="text" tabindex="-1" autocomplete="off" />
+        </div>
+        <label class="casilla">
+          <input id="aviso-privacidad" type="checkbox" name="aviso" />
+          <span>
+            Acepto el <a href="/privacidad">aviso de privacidad</a>.
+          </span>
+        </label>
+        <button class="boton" type="submit">Quiero la Rutina 01 gratis</button>
+        <p class="estado" id="correo-estado"></p>
+      </form>
+    ) : (
+      <p class="rutina-espera" role="status">La Rutina 01 se abre muy pronto.</p>
+    )
+  }
 
   <section id="entrega-rutina" class="entrega-rutina" hidden aria-labelledby="entrega-titulo">
     <p class="entrega-kicker">Rutina 01</p>
-    <h2 id="entrega-titulo">Base articular</h2>
-    <p>
-      Para empezar en casa, sin experiencia previa. Estabilidad y fuerza para preparar las
-      articulaciones antes de cargar peso.
-    </p>
+    <h2 id="entrega-titulo">{rutina01.titulo}</h2>
+    <p>{rutina01.proposito}</p>
     <ol class="entrega-pasos">
       {
-        PASOS_RUTINA_01.map((paso) => (
+        rutina01.pasos.map((paso) => (
           <li>
             <span>{paso.numero}</span>
             {paso.titulo}
@@ -79,6 +87,16 @@ const tutorial = TUTORIAL_RUTINA_01.trim();
         ))
       }
     </ol>
+    {
+      detalleListo && (
+        <div class="entrega-detalle">
+          <p>{rutina01.ejercicios}</p>
+          <p>{rutina01.series}</p>
+          <p>{rutina01.cargas}</p>
+          <p>{rutina01.duracion}</p>
+        </div>
+      )
+    }
   </section>
 
   <p class="rama-siguiente">

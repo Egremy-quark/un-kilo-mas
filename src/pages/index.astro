@@ -1,15 +1,12 @@
 ---
 import Base from '../layouts/Base.astro';
-import CarruselEjemplo from '../components/CarruselEjemplo.astro';
 import Fuentes from '../components/Fuentes.astro';
-import GuiaPasos from '../components/GuiaPasos.astro';
 import Hero from '../components/Hero.astro';
 import QuienesSomos from '../components/QuienesSomos.astro';
 import RamaNutricion from '../components/RamaNutricion.astro';
 import RamaRutina from '../components/RamaRutina.astro';
-import RouterFlujo from '../components/RouterFlujo.astro';
-import Sello from '../components/Sello.astro';
-import { sitio } from '../config/sitio';
+import Testimonios from '../components/Testimonios.astro';
+import { sitio, testimoniosAutorizados } from '../config/sitio';
 import { ACTIVIDADES, type Actividad } from '../lib/calculos';
 import { esPendiente } from '../lib/pendiente';
 
@@ -23,22 +20,23 @@ const actividades = (Object.keys(ACTIVIDADES) as Actividad[]).map((id) => {
   };
 });
 const mostrarComida = !esPendiente(sitio.calculadoras.proteina.comidaMexicana);
+const hayTestimonios = testimoniosAutorizados().length > 0;
 ---
 
 <Base
-  titulo="Calcula tu 1RM, proteína y calorías"
-  descripcion="Tu 1RM, tu proteína y tus calorías. Gratis y sin registrarte."
+  titulo="Llega al gym sabiendo qué hacer"
+  descripcion="Empieza gratis en tu casa, a tu ritmo y sin que nadie te vea. Te guía Yohan, entrenador certificado."
 >
   <div class="columna portada">
     <Hero />
-    <RouterFlujo />
-    <GuiaPasos />
+    <RamaRutina />
 
     <section id="calculadoras" class="calculadora" aria-label="Calculadoras">
       <div id="1rm" class="destino"></div>
       <div id="proteina" class="destino"></div>
       <div id="calorias" class="destino"></div>
 
+      <p class="calculadora-guia">Elige, escribe tus datos y listo.</p>
       <div id="pestanas" role="tablist" aria-label="Calculadoras" class="pestanas">
         <a role="tab" id="tab-1rm" href="#1rm" data-tab="1rm" aria-controls="panel-1rm" aria-selected="true" tabindex="0">1RM</a>
         <a role="tab" id="tab-proteina" href="#proteina" data-tab="proteina" aria-controls="panel-proteina" aria-selected="false" tabindex="-1">Proteína</a>
@@ -174,10 +172,6 @@ const mostrarComida = !esPendiente(sitio.calculadoras.proteina.comidaMexicana);
               <p class="aviso" id="resultado-aviso" hidden></p>
               <table class="tabla-cargas" id="resultado-tabla" hidden></table>
             </div>
-            <p class="siguiente-1rm" id="siguiente-1rm" hidden>
-              ¿Y ahora qué haces con este número? Conviértelo en un plan por semanas, en el coaching.
-              <a class="hero-enlace" href="/coaching">Entrena con Yohan</a>
-            </p>
           </div>
           <div id="acciones-resultado" hidden>
             <div class="acciones">
@@ -206,13 +200,8 @@ const mostrarComida = !esPendiente(sitio.calculadoras.proteina.comidaMexicana);
       </script>
     </section>
 
-    <Sello compacto />
-    <RamaRutina />
-    <RamaNutricion />
+    {sitio.nutricion.activo && <RamaNutricion />}
   </div>
-
-  <!-- Placeholder de diseño. No es prueba social. Ver src/datos/testimonios-ejemplo.ts -->
-  <CarruselEjemplo />
 
   <QuienesSomos />
 
@@ -221,6 +210,15 @@ const mostrarComida = !esPendiente(sitio.calculadoras.proteina.comidaMexicana);
       <p>¿Quieres que un entrenador ajuste esto contigo?</p>
       <a class="boton" href="/coaching">Ver el coaching</a>
     </div>
+    {
+      hayTestimonios && (
+        <div class="puente-testimonios">
+          <div class="columna">
+            <Testimonios limite={3} />
+          </div>
+        </div>
+      )
+    }
   </section>
 
   <Fuentes />
@@ -228,5 +226,7 @@ const mostrarComida = !esPendiente(sitio.calculadoras.proteina.comidaMexicana);
 
 <script>
   import { iniciarCalculadoras } from '../scripts/calculadoras';
+  import { iniciarRutina } from '../scripts/rutina';
   iniciarCalculadoras();
+  iniciarRutina();
 </script>
