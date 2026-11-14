@@ -1,0 +1,23 @@
+{
+  "clave": "prueba-b",
+  "nombre": "Bloque de prueba B",
+  "descripcion": "Otro bloque de prueba, para comprobar que el mismo flujo sirve a cualquier bloque.",
+  "orden": 2,
+  "publicado": true,
+  "es_prueba": true,
+  "sesiones": [
+    {
+      "posicion": 1,
+      "objetivo": "Una sola sesión, distintos ejercicios. Sigue siendo general.",
+      "ejercicios": [
+        {
+          "ejercicio": "Ejercicio de prueba 3",
+          "orden": 1,
+          "series_previstas": 4,
+          "repeticiones_previstas": 6,
+          "nota_tecnica": "Dato de prueba. El texto técnico real es [CONTENIDO POR YOHAN]."
+        }
+      ]
+    }
+  ]
+}

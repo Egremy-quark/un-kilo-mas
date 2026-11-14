@@ -1,0 +1,15 @@
+---
+import App from '../../layouts/App.astro';
+---
+
+<App
+  titulo="Sesión de hoy"
+  descripcion="Ve qué te toca y anota cada serie: peso en kg y repeticiones."
+>
+  <p>Cargando la sesión…</p>
+</App>
+
+<script>
+  import { iniciarSesion } from '../../scripts/app/sesion';
+  iniciarSesion();
+</script>

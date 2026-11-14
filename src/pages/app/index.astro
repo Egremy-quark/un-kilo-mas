@@ -1,0 +1,15 @@
+---
+import App from '../../layouts/App.astro';
+---
+
+<App
+  titulo="Mis bloques"
+  descripcion="Bloques generales para registrar tu entrenamiento. No es un programa personalizado."
+>
+  <p>Cargando tus bloques…</p>
+</App>
+
+<script>
+  import { iniciarBloques } from '../../scripts/app/bloques';
+  iniciarBloques();
+</script>

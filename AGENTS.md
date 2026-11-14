@@ -8,6 +8,16 @@ astro dev --background
 
 Manage the background server with `astro dev stop`, `astro dev status`, and `astro dev logs`.
 
+## Publish
+
+After every change, deploy to production. GitHub does not auto-deploy:
+
+```
+npx vercel --prod --yes --scope egremyquarks-projects
+```
+
+Live site: https://un-kilo-mas.vercel.app
+
 ## Documentation
 
 Full documentation: https://docs.astro.build

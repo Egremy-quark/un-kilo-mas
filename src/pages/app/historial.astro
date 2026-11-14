@@ -1,0 +1,15 @@
+---
+import App from '../../layouts/App.astro';
+---
+
+<App
+  titulo="Historial"
+  descripcion="Tus sesiones pasadas. Solo tú las ves y las editas."
+>
+  <p>Cargando el historial…</p>
+</App>
+
+<script>
+  import { iniciarHistorial } from '../../scripts/app/historial';
+  iniciarHistorial();
+</script>

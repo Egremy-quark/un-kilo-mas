@@ -1,0 +1,23 @@
+{
+  "clave": "clave-del-bloque",
+  "nombre": "[CONTENIDO POR YOHAN]",
+  "descripcion": "[CONTENIDO POR YOHAN]",
+  "orden": 10,
+  "publicado": false,
+  "es_prueba": false,
+  "sesiones": [
+    {
+      "posicion": 1,
+      "objetivo": "[CONTENIDO POR YOHAN]",
+      "ejercicios": [
+        {
+          "ejercicio": "[CONTENIDO POR YOHAN]",
+          "orden": 1,
+          "series_previstas": 1,
+          "repeticiones_previstas": 1,
+          "nota_tecnica": "[CONTENIDO POR YOHAN]"
+        }
+      ]
+    }
+  ]
+}

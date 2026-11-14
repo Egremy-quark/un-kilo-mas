@@ -72,6 +72,13 @@ export interface Sitio {
   privacidad: {
     secciones: SeccionPrivacidad[];
   };
+  app: {
+    /**
+     * Si es false, el público no entra a /app.
+     * Quien ya tiene cuenta con tipo_acceso distinto de ninguno puede iniciar sesión.
+     */
+    abiertaAlPublico: boolean;
+  };
 }
 
 /** Único lugar para el nombre de trabajo y para todo lo que aún no está decidido. */
@@ -216,6 +223,9 @@ export const sitio: Sitio = {
       { id: 'arco', titulo: 'Derechos ARCO', texto: '[POR DEFINIR]' },
       { id: 'cambios', titulo: 'Cambios a este aviso', texto: '[POR DEFINIR]' },
     ],
+  },
+  app: {
+    abiertaAlPublico: false,
   },
 };
 
