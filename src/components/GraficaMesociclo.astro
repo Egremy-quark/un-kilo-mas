@@ -1,0 +1,24 @@
+---
+interface Props {
+  etiqueta: string;
+}
+
+const { etiqueta } = Astro.props;
+---
+
+<svg class="grafica-ciclo" viewBox="0 0 168 96" role="img" aria-label={etiqueta}>
+  <rect x="4" y="62" width="18" height="26" fill="var(--tinta)" />
+  <rect x="30" y="48" width="18" height="40" fill="var(--tinta)" />
+  <rect x="56" y="34" width="18" height="54" fill="var(--tinta)" />
+  <rect x="82" y="20" width="18" height="68" fill="var(--tinta)" />
+  <rect x="108" y="46" width="18" height="42" fill="#fff" stroke="var(--tinta)" stroke-width="2" />
+  <rect x="134" y="8" width="18" height="80" fill="var(--tinta)" />
+  <polyline
+    points="13,60 39,46 65,32 91,18 117,44 143,6"
+    fill="none"
+    stroke="var(--lima)"
+    stroke-width="3"
+    stroke-linecap="round"
+    stroke-linejoin="round"
+  />
+</svg>

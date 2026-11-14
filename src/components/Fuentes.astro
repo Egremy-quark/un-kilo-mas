@@ -1,0 +1,24 @@
+---
+import { FUENTES } from '../datos/fuentes';
+---
+
+<section class="fuentes" aria-labelledby="titulo-fuentes">
+  <div class="columna">
+    <h2 id="titulo-fuentes">¿De dónde sale este número?</h2>
+    <ul>
+      {
+        FUENTES.map((fuente) => (
+          <li>
+            {fuente.url ? (
+              <a href={fuente.url} rel="noopener noreferrer">
+                {fuente.texto}
+              </a>
+            ) : (
+              fuente.texto
+            )}
+          </li>
+        ))
+      }
+    </ul>
+  </div>
+</section>

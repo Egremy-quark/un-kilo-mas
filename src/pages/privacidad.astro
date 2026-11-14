@@ -1,0 +1,25 @@
+---
+import Base from '../layouts/Base.astro';
+import { sitio } from '../config/sitio';
+import { clasePendiente } from '../lib/pendiente';
+---
+
+<Base
+  titulo="Aviso de privacidad"
+  descripcion={`Aviso de privacidad de ${sitio.nombre}. El texto definitivo está pendiente.`}
+>
+  <article class="columna pagina aviso-legal">
+    <h1>Aviso de <em>privacidad</em></h1>
+    <p class="bajada">
+      El texto de este aviso está pendiente. La estructura ya está lista para completarlo.
+    </p>
+    {
+      sitio.privacidad.secciones.map((seccion) => (
+        <section>
+          <h2 id={seccion.id}>{seccion.titulo}</h2>
+          <p class={clasePendiente(seccion.texto)}>{seccion.texto}</p>
+        </section>
+      ))
+    }
+  </article>
+</Base>

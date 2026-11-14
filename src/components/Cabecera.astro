@@ -1,0 +1,17 @@
+---
+import { sitio } from '../config/sitio';
+import Logo from './Logo.astro';
+
+const ruta = Astro.url.pathname.replace(/\/$/, '') || '/';
+const enCoaching = ruta === '/coaching';
+---
+
+<header class="cabecera">
+  <div class="columna cabecera-interior">
+    <a class="logo-enlace" href="/" aria-label={sitio.nombre}>
+      <Logo />
+    </a>
+    <a class="enlace-coaching" href="/coaching" aria-current={enCoaching ? 'page' : undefined}>Coaching</a>
+  </div>
+</header>
+<div class="franja" aria-hidden="true"></div>

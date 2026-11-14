@@ -1,0 +1,163 @@
+---
+import Base from '../layouts/Base.astro';
+import GraficaMesociclo from '../components/GraficaMesociclo.astro';
+import Sello from '../components/Sello.astro';
+import { FASES_PROGRAMA } from '../datos/programa';
+import { sitio } from '../config/sitio';
+import { clasePendiente } from '../lib/pendiente';
+import { urlInstagram } from '../lib/marca';
+
+const incluye = [
+  ['Programas', sitio.coaching.incluye.programas],
+  ['Mesociclos', sitio.coaching.incluye.mesociclos],
+  ['Nutrición', sitio.coaching.incluye.nutricion],
+  ['Corrección de técnica', sitio.coaching.incluye.tecnica],
+] as const;
+
+const instagram = urlInstagram(sitio.yohan.instagram);
+const whatsappListo = /^\d{8,15}$/.test(sitio.coaching.whatsapp);
+---
+
+<Base
+  titulo="Coaching con Yohan"
+  descripcion="Para gente con poco tiempo que quiere entrenar con estructura."
+>
+  <div class="columna pagina">
+    <Sello />
+
+    <div class="bloque">
+      <h1>Entrena con <em>Yohan</em></h1>
+      <p class="bajada">Para gente con poco tiempo que quiere entrenar con estructura.</p>
+    </div>
+
+    <section class="bloque" id="historia" aria-labelledby="historia-titulo">
+      <h2 id="historia-titulo">Cómo empezó Yohan</h2>
+      <p>
+        Empezó a entrenar a los 15 años, solo, en un pueblito donde no había quién le enseñara. Aprendió por
+        su cuenta a entrenar y a alimentarse.
+      </p>
+      <p>
+        Estudió una ingeniería que odiaba y, al mismo tiempo, Entrenamiento Deportivo. Después estudió
+        Nutrición.
+      </p>
+      <p>
+        Lleva más de 10 años como entrenador. Su especialidad es sacar a la gente desde cero, adaptando el
+        entrenamiento a su vida y no su vida al entrenamiento.
+      </p>
+      <p>
+        Trabaja con gente normal y con poco tiempo: maestras, contadores, mamás. Gente que no se dedica a
+        esto.
+      </p>
+    </section>
+
+    <section class="bloque" id="programa" aria-labelledby="programa-titulo">
+      <h2 id="programa-titulo">El primer <em>mesociclo</em></h2>
+      <GraficaMesociclo etiqueta="Mesociclo: las semanas suben y una semana es más suave." />
+      <h3>Qué es un mesociclo</h3>
+      <p>
+        Un bloque de semanas con una dirección. La carga sube y una semana baja para poder seguir. La
+        progresión 01 a 02 es el primer ejemplo trabajado de la marca: primero estabilidad sin peso, después
+        moverse con peso.
+      </p>
+      <ol class="fases">
+        {
+          FASES_PROGRAMA.map((fase) => (
+            <li>
+              <p class="fase-nombre">{fase.nombre}</p>
+              <h3>{fase.titulo}</h3>
+              <p class="fase-donde">{fase.donde}</p>
+              <p>{fase.texto}</p>
+            </li>
+          ))
+        }
+      </ol>
+      <p>Se termina la Rutina 01 antes de pasar a la Rutina 02.</p>
+      <p class="fase-nota">
+        La Rutina 01, Base articular, se abre en la página principal, en #rutina, a cambio del correo. La
+        Rutina 02 es el paso siguiente del programa.
+      </p>
+      <p class="fase-nota">
+        Yohan también tiene el Pack de Rutinas completo y un programa de abdomen. En esta página el siguiente
+        paso es el coaching.
+      </p>
+    </section>
+
+    <section class="bloque" aria-labelledby="para-quien">
+      <h2 id="para-quien">Para quién es</h2>
+      <ul class="para-quien">
+        <li>3 a 4 días por semana</li>
+        <li>Poco tiempo</li>
+        <li>Quieres un plan claro</li>
+      </ul>
+    </section>
+
+    <section class="bloque" aria-labelledby="incluye">
+      <h2 id="incluye">Qué incluye</h2>
+      <ul class="incluye">
+        {
+          incluye.map(([titulo, texto]) => (
+            <li>
+              <h3>{titulo}</h3>
+              <p class={clasePendiente(texto)}>{texto}</p>
+            </li>
+          ))
+        }
+      </ul>
+    </section>
+
+    <section class="bloque" aria-labelledby="cupo">
+      <h2 id="cupo">Cupo y precio</h2>
+      <div class="cupo">
+        <article>
+          <p class="dato-etiqueta">Cupo</p>
+          <p class:list={['dato-grande', clasePendiente(sitio.coaching.cupo)]}>{sitio.coaching.cupo}</p>
+          <p>lugares</p>
+        </article>
+        <article>
+          <p class="dato-etiqueta">Precio</p>
+          <p class:list={['dato-grande', clasePendiente(sitio.coaching.precio)]}>{sitio.coaching.precio}</p>
+        </article>
+      </div>
+    </section>
+
+    <section class="bloque filtro" aria-labelledby="filtro-titulo">
+      <h2 id="filtro-titulo">Antes de escribir</h2>
+      <p class="bajada">Responde esto y te llevamos a WhatsApp.</p>
+      <form id="filtro" novalidate data-whatsapp={whatsappListo ? sitio.coaching.whatsapp : ''}>
+        {
+          sitio.coaching.preguntasFiltro.map((pregunta) =>
+            pregunta.tipo === 'opciones' && pregunta.opciones ? (
+              <fieldset data-etiqueta={pregunta.etiqueta}>
+                <legend>{pregunta.etiqueta}</legend>
+                <div class="opciones">
+                  {pregunta.opciones.map((opcion) => (
+                    <label class="opcion">
+                      <input type="radio" name={pregunta.id} value={opcion} />
+                      <span>{opcion}</span>
+                    </label>
+                  ))}
+                </div>
+              </fieldset>
+            ) : (
+              <div class="campo" data-etiqueta={pregunta.etiqueta}>
+                <label for={`filtro-${pregunta.id}`}>{pregunta.etiqueta}</label>
+                <input id={`filtro-${pregunta.id}`} name={pregunta.id} type="text" autocomplete="off" />
+              </div>
+            ),
+          )
+        }
+        <p class="ayuda" id="filtro-ayuda">Cuando termines, aparece el botón para escribirle.</p>
+        <p id="filtro-accion" hidden></p>
+      </form>
+    </section>
+
+    <p class="bloque">
+      <a href={instagram} rel="noopener noreferrer">Instagram de Yohan: @{sitio.yohan.instagram}</a>
+    </p>
+  </div>
+</Base>
+
+<script>
+  import { iniciarFiltro } from '../scripts/filtro';
+  iniciarFiltro();
+</script>

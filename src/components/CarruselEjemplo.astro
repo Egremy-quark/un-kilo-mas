@@ -1,0 +1,66 @@
+---
+import { TESTIMONIOS_EJEMPLO } from '../datos/testimonios-ejemplo';
+
+/**
+ * PLACEHOLDER DE DISEÑO. Estos testimonios no son reales.
+ * Nunca deben presentarse como prueba social.
+ * Antes de difundir la página, sustituirlos por testimonios reales con permiso
+ * o quitar la sección completa: borra <CarruselEjemplo /> en src/pages/index.astro.
+ * Los textos viven solo en src/datos/testimonios-ejemplo.ts.
+ */
+---
+
+<section class="carrusel-ejemplo" data-carrusel-raiz aria-labelledby="aviso-ejemplo">
+  <div class="columna">
+    <h2 class="aviso-ejemplo" id="aviso-ejemplo">Sección de ejemplo. Pendiente de testimonios reales.</h2>
+    <div class="carrusel-pista" tabindex="0">
+      {
+        TESTIMONIOS_EJEMPLO.map((item) => (
+          <article class="carrusel-tarjeta" id={item.id}>
+            <div class="ejemplo-cabeza">
+              <span class="ejemplo-avatar" aria-hidden="true">{item.iniciales}</span>
+              <p class="ejemplo-nombre">
+                {item.iniciales}
+                <span class="ejemplo-etiqueta">EJEMPLO</span>
+              </p>
+            </div>
+            <p class="ejemplo-frase">{item.frase}</p>
+            <p class="ejemplo-texto">{item.texto}</p>
+          </article>
+        ))
+      }
+    </div>
+    <div class="carrusel-controles">
+      <button type="button" class="carrusel-flecha" data-carrusel="anterior" aria-label="Ejemplo anterior">
+        <svg viewBox="0 0 24 24" aria-hidden="true">
+          <path d="M14.5 5.5 8 12l6.5 6.5" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" />
+        </svg>
+      </button>
+      <div class="carrusel-puntos">
+        {
+          TESTIMONIOS_EJEMPLO.map((item, indice) => (
+            <button
+              type="button"
+              class="carrusel-punto"
+              data-indice={indice}
+              aria-label={`Ejemplo ${indice + 1} de ${TESTIMONIOS_EJEMPLO.length}`}
+              aria-current={indice === 0 ? 'true' : undefined}
+            />
+          ))
+        }
+      </div>
+      <button type="button" class="carrusel-flecha" data-carrusel="siguiente" aria-label="Ejemplo siguiente">
+        <svg viewBox="0 0 24 24" aria-hidden="true">
+          <path d="M9.5 5.5 16 12l-6.5 6.5" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" />
+        </svg>
+      </button>
+    </div>
+  </div>
+</section>
+
+<script>
+  import { iniciarCarrusel } from '../scripts/carrusel';
+
+  const raiz = document.querySelector<HTMLElement>('[data-carrusel-raiz]');
+  if (raiz) iniciarCarrusel(raiz);
+</script>

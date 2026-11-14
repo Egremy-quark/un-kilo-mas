@@ -1,0 +1,7 @@
+capturas
+test-results
+playwright-report
+blob-report
+.astro
+dist
+node_modules

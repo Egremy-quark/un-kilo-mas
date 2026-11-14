@@ -1,0 +1,66 @@
+---
+import '../styles/global.css';
+import '../styles/secciones.css';
+import { sitio } from '../config/sitio';
+import { esPendiente } from '../lib/pendiente';
+import Cabecera from '../components/Cabecera.astro';
+import Pie from '../components/Pie.astro';
+
+interface Props {
+  titulo: string;
+  descripcion: string;
+}
+
+const { titulo, descripcion } = Astro.props;
+const tituloCompleto = `${titulo} | ${sitio.nombre}`;
+const dominioListo = !esPendiente(sitio.dominio) && sitio.dominio.includes('.');
+const origen = dominioListo ? `https://${sitio.dominio.replace(/^https?:\/\//, '')}` : '';
+const canonica = origen ? new URL(Astro.url.pathname, origen).href : undefined;
+const imagen = origen ? `${origen}/og.png` : '/og.png';
+---
+
+<!doctype html>
+<html lang="es-MX">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>{tituloCompleto}</title>
+    <meta name="description" content={descripcion} />
+    <meta name="theme-color" content="#FAF7F0" />
+    <meta name="format-detection" content="telephone=no" />
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+    <link rel="icon" href="/favicon-32.png" type="image/png" sizes="32x32" />
+    <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@800&family=Source+Sans+3:wght@400;600;700&display=swap"
+      rel="stylesheet"
+    />
+    {canonica && <link rel="canonical" href={canonica} />}
+    <meta property="og:type" content="website" />
+    <meta property="og:locale" content="es_MX" />
+    <meta property="og:site_name" content={sitio.nombre} />
+    <meta property="og:title" content={tituloCompleto} />
+    <meta property="og:description" content={descripcion} />
+    <meta property="og:image" content={imagen} />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:image:alt" content={`${sitio.nombre}. Calcula lo básico.`} />
+    {canonica && <meta property="og:url" content={canonica} />}
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="generator" content={Astro.generator} />
+  </head>
+  <body>
+    <a class="saltar" href="#contenido">Saltar al contenido</a>
+    <Cabecera />
+    <main id="contenido">
+      <slot />
+    </main>
+    <Pie />
+    <script>
+      import { capturarOrigen } from '../lib/origen';
+      capturarOrigen();
+    </script>
+  </body>
+</html>

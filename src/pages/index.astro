@@ -1,0 +1,232 @@
+---
+import Base from '../layouts/Base.astro';
+import CarruselEjemplo from '../components/CarruselEjemplo.astro';
+import Fuentes from '../components/Fuentes.astro';
+import GuiaPasos from '../components/GuiaPasos.astro';
+import Hero from '../components/Hero.astro';
+import QuienesSomos from '../components/QuienesSomos.astro';
+import RamaNutricion from '../components/RamaNutricion.astro';
+import RamaRutina from '../components/RamaRutina.astro';
+import RouterFlujo from '../components/RouterFlujo.astro';
+import Sello from '../components/Sello.astro';
+import { sitio } from '../config/sitio';
+import { ACTIVIDADES, type Actividad } from '../lib/calculos';
+import { esPendiente } from '../lib/pendiente';
+
+const actividades = (Object.keys(ACTIVIDADES) as Actividad[]).map((id) => {
+  const actividad = ACTIVIDADES[id];
+  const etiqueta = actividad.etiqueta;
+  const titulo = `${etiqueta.charAt(0).toLocaleUpperCase('es-MX')}${etiqueta.slice(1)}`;
+  return {
+    id,
+    texto: `${titulo}: ${actividad.detalle}`,
+  };
+});
+const mostrarComida = !esPendiente(sitio.calculadoras.proteina.comidaMexicana);
+---
+
+<Base
+  titulo="Calcula tu 1RM, proteína y calorías"
+  descripcion="Tu 1RM, tu proteína y tus calorías. Gratis y sin registrarte."
+>
+  <div class="columna portada">
+    <Hero />
+    <RouterFlujo />
+    <GuiaPasos />
+
+    <section id="calculadoras" class="calculadora" aria-label="Calculadoras">
+      <div id="1rm" class="destino"></div>
+      <div id="proteina" class="destino"></div>
+      <div id="calorias" class="destino"></div>
+
+      <div id="pestanas" role="tablist" aria-label="Calculadoras" class="pestanas">
+        <a role="tab" id="tab-1rm" href="#1rm" data-tab="1rm" aria-controls="panel-1rm" aria-selected="true" tabindex="0">1RM</a>
+        <a role="tab" id="tab-proteina" href="#proteina" data-tab="proteina" aria-controls="panel-proteina" aria-selected="false" tabindex="-1">Proteína</a>
+        <a role="tab" id="tab-calorias" href="#calorias" data-tab="calorias" aria-controls="panel-calorias" aria-selected="false" tabindex="-1">Calorías</a>
+      </div>
+
+      <div class="calculadora-cuerpo">
+        <div class="paneles">
+          <div role="tabpanel" id="panel-1rm" data-panel="1rm" aria-labelledby="tab-1rm">
+            <p class="intro-1rm">
+              El peso máximo que podrías levantar una sola vez, estimado sin arriesgarte a intentarlo.
+              Sirve a quien ya entrena. El regalo principal es la rutina para empezar en casa.
+            </p>
+            <form id="form-1rm" novalidate>
+              <div class="campo">
+                <label id="etiqueta-peso-1rm" for="peso-1rm">Peso levantado (kg)</label>
+                <input id="peso-1rm" name="peso" type="text" inputmode="decimal" autocomplete="off" />
+                <p class="error" id="error-peso-1rm" hidden></p>
+              </div>
+              <div class="campo">
+                <label for="reps-1rm">Repeticiones completas</label>
+                <input id="reps-1rm" name="repeticiones" type="text" inputmode="numeric" autocomplete="off" />
+                <p class="error" id="error-reps-1rm" hidden></p>
+              </div>
+              <div class="campo">
+                <span class="etiqueta" id="etiqueta-unidad">Unidad</span>
+                <div class="conmutador" role="radiogroup" aria-labelledby="etiqueta-unidad">
+                  <button type="button" role="radio" id="unidad-kg" data-unidad="kg" aria-checked="true">kg</button>
+                  <button type="button" role="radio" id="unidad-lb" data-unidad="lb" aria-checked="false">lb</button>
+                </div>
+              </div>
+              <div class="campo">
+                <label for="ejercicio-1rm">Ejercicio (opcional)</label>
+                <select id="ejercicio-1rm" name="ejercicio">
+                  <option value="">Sin especificar</option>
+                  <option value="sentadilla">Sentadilla</option>
+                  <option value="press de banca">Press de banca</option>
+                  <option value="peso muerto">Peso muerto</option>
+                  <option value="press militar">Press militar</option>
+                  <option value="otro">Otro</option>
+                </select>
+              </div>
+              <button class="boton" type="submit">Calcular</button>
+            </form>
+          </div>
+
+          <div role="tabpanel" id="panel-proteina" data-panel="proteina" aria-labelledby="tab-proteina" hidden>
+            <form id="form-proteina" novalidate>
+              <div class="campo">
+                <label for="peso-proteina">Peso corporal (kg)</label>
+                <input id="peso-proteina" name="peso" type="text" inputmode="decimal" autocomplete="off" />
+                <p class="error" id="error-peso-proteina" hidden></p>
+              </div>
+              <fieldset id="grupo-objetivo">
+                <legend>Objetivo</legend>
+                <div class="opciones">
+                  <label class="opcion"><input type="radio" name="objetivo-proteina" value="mantener" /> <span>Mantener</span></label>
+                  <label class="opcion"><input type="radio" name="objetivo-proteina" value="ganar" /> <span>Ganar músculo</span></label>
+                  <label class="opcion"><input type="radio" name="objetivo-proteina" value="bajar" /> <span>Bajar grasa</span></label>
+                </div>
+                <p class="error" id="error-objetivo-proteina" hidden></p>
+              </fieldset>
+              <button class="boton" type="submit">Calcular</button>
+            </form>
+            {
+              mostrarComida && (
+                <section class="bloque">
+                  <h2>Esto en comida mexicana</h2>
+                  <p>{sitio.calculadoras.proteina.comidaMexicana}</p>
+                </section>
+              )
+            }
+          </div>
+
+          <div role="tabpanel" id="panel-calorias" data-panel="calorias" aria-labelledby="tab-calorias" hidden>
+            <form id="form-calorias" novalidate>
+              <fieldset id="grupo-sexo">
+                <legend>Sexo</legend>
+                <div class="opciones">
+                  <label class="opcion"><input type="radio" name="sexo" value="mujer" /> <span>Mujer</span></label>
+                  <label class="opcion"><input type="radio" name="sexo" value="hombre" /> <span>Hombre</span></label>
+                </div>
+                <p class="error" id="error-sexo" hidden></p>
+              </fieldset>
+              <div class="campo">
+                <label for="edad">Edad</label>
+                <input id="edad" name="edad" type="text" inputmode="numeric" autocomplete="off" />
+                <p class="error" id="error-edad" hidden></p>
+              </div>
+              <div class="campo">
+                <label for="peso-calorias">Peso (kg)</label>
+                <input id="peso-calorias" name="peso" type="text" inputmode="decimal" autocomplete="off" />
+                <p class="error" id="error-peso-calorias" hidden></p>
+              </div>
+              <div class="campo">
+                <label for="estatura">Estatura (cm)</label>
+                <input id="estatura" name="estatura" type="text" inputmode="decimal" autocomplete="off" />
+                <p class="error" id="error-estatura" hidden></p>
+              </div>
+              <div class="campo">
+                <label for="actividad">Actividad</label>
+                <select id="actividad" name="actividad">
+                  <option value="">Elige una</option>
+                  {
+                    actividades.map((actividad) => (
+                      <option value={actividad.id}>{actividad.texto}</option>
+                    ))
+                  }
+                </select>
+                <p class="error" id="error-actividad" hidden></p>
+              </div>
+              <button class="boton" type="submit">Calcular</button>
+            </form>
+          </div>
+        </div>
+
+        <div class="resultado-col">
+          <div id="resultado-vivo" aria-live="polite" aria-atomic="true">
+            <p class="resultado-vacio" id="resultado-vacio">Pulsa Calcular. El resultado se queda en esta página.</p>
+            <div id="resultado-lleno" hidden>
+              <p class="resultado-etiqueta" id="resultado-etiqueta"></p>
+              <p class="numero-grande">
+                <span class="cifra" id="resultado-cifra"></span>
+                <span class="unidad" id="resultado-unidad"></span>
+              </p>
+              <p class="estimado">estimado</p>
+              <p class="rango" id="resultado-rango" hidden></p>
+              <p class="explicacion" id="resultado-explicacion"></p>
+              <div class="referencia" id="resultado-referencia" hidden></div>
+              <p class="nota" id="resultado-nota" hidden></p>
+              <p class="parrafo" id="resultado-parrafo" hidden></p>
+              <p class="fuente" id="resultado-fuente" hidden></p>
+              <p class="aviso" id="resultado-aviso" hidden></p>
+              <table class="tabla-cargas" id="resultado-tabla" hidden></table>
+            </div>
+            <p class="siguiente-1rm" id="siguiente-1rm" hidden>
+              ¿Y ahora qué haces con este número? Conviértelo en un plan por semanas, en el coaching.
+              <a class="hero-enlace" href="/coaching">Entrena con Yohan</a>
+            </p>
+          </div>
+          <div id="acciones-resultado" hidden>
+            <div class="acciones">
+              <button type="button" class="boton boton-secundario" id="compartir">Compartir resultado</button>
+              <p class="estado" id="compartir-estado"></p>
+            </div>
+          </div>
+        </div>
+      </div>
+      <script is:inline>
+        (function () {
+          var ids = ['1rm', 'proteina', 'calorias'];
+          var hash = location.hash.replace('#', '');
+          var id = ids.indexOf(hash) === -1 ? '1rm' : hash;
+          ids.forEach(function (candidato) {
+            var activo = candidato === id;
+            var panel = document.getElementById('panel-' + candidato);
+            var tab = document.getElementById('tab-' + candidato);
+            if (panel) panel.hidden = !activo;
+            if (tab) {
+              tab.setAttribute('aria-selected', activo ? 'true' : 'false');
+              tab.tabIndex = activo ? 0 : -1;
+            }
+          });
+        })();
+      </script>
+    </section>
+
+    <Sello compacto />
+    <RamaRutina />
+    <RamaNutricion />
+  </div>
+
+  <!-- Placeholder de diseño. No es prueba social. Ver src/datos/testimonios-ejemplo.ts -->
+  <CarruselEjemplo />
+
+  <QuienesSomos />
+
+  <section class="puente">
+    <div class="columna puente-interior">
+      <p>¿Quieres que un entrenador ajuste esto contigo?</p>
+      <a class="boton" href="/coaching">Ver el coaching</a>
+    </div>
+  </section>
+
+  <Fuentes />
+</Base>
+
+<script>
+  import { iniciarCalculadoras } from '../scripts/calculadoras';
+  iniciarCalculadoras();
+</script>

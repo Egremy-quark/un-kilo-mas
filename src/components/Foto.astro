@@ -1,0 +1,44 @@
+---
+import { sitio } from '../config/sitio';
+
+interface Props {
+  tamano: 'grande' | 'compacto';
+}
+
+const { tamano } = Astro.props;
+const modulos = import.meta.glob<{ default: { src: string } | string }>(
+  '../assets/yohan.{jpg,jpeg,png,webp}',
+  { eager: true },
+);
+const primero = Object.values(modulos)[0]?.default;
+const desdeArchivo = typeof primero === 'string' ? primero : primero?.src;
+const src = sitio.yohan.foto ?? desdeArchivo ?? null;
+const tituloPatron = `rayas-${tamano}`;
+---
+
+<span class="foto">
+  {
+    src ? (
+      <img src={src} alt="Yohan" width={tamano === 'compacto' ? 64 : 128} height={tamano === 'compacto' ? 64 : 128} />
+    ) : (
+      <>
+        <svg viewBox="0 0 160 160" role="img" aria-label="Foto de Yohan">
+          <defs>
+            <pattern
+              id={tituloPatron}
+              width="12"
+              height="12"
+              patternUnits="userSpaceOnUse"
+              patternTransform="rotate(45)"
+            >
+              <rect width="12" height="12" fill="#FAF7F0" />
+              <rect width="6" height="12" fill="#E6E1D6" />
+            </pattern>
+          </defs>
+          <circle cx="80" cy="80" r="80" fill={`url(#${tituloPatron})`} />
+        </svg>
+        <span class="foto-leyenda" aria-hidden="true">Foto de Yohan</span>
+      </>
+    )
+  }
+</span>

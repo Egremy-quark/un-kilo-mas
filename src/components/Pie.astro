@@ -1,0 +1,23 @@
+---
+import { sitio } from '../config/sitio';
+import { urlInstagram } from '../lib/marca';
+import Logo from './Logo.astro';
+
+const instagram = urlInstagram(sitio.yohan.instagram);
+---
+
+<footer class="pie">
+  <div class="columna">
+    <a class="logo-enlace" href="/" aria-label={sitio.nombre}>
+      <Logo variante="sobre-tinta" />
+    </a>
+    <nav class="pie-nav" aria-label="Pie de página">
+      <a href="/coaching">Coaching</a>
+      <a href="/privacidad">Aviso de privacidad</a>
+      <a href={instagram} rel="noopener noreferrer">@{sitio.yohan.instagram}</a>
+    </nav>
+    <p class="pie-nota">
+      Las calculadoras dan estimaciones. No sustituyen la valoración de un profesional de la salud.
+    </p>
+  </div>
+</footer>

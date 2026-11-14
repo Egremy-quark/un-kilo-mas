@@ -1,0 +1,63 @@
+---
+import { sitio } from '../config/sitio';
+import { esPendiente } from '../lib/pendiente';
+import { urlInstagram } from '../lib/marca';
+import Foto from './Foto.astro';
+
+interface Props {
+  compacto?: boolean;
+}
+
+const { compacto = false } = Astro.props;
+const instagram = urlInstagram(sitio.yohan.instagram);
+const certificadoPendiente = esPendiente(sitio.yohan.certificado);
+---
+
+<aside class:list={['sello', compacto ? 'sello-compacto' : 'sello-grande']} aria-label="Credenciales de Yohan">
+  <Foto tamano={compacto ? 'compacto' : 'grande'} />
+  {
+    compacto ? (
+      <div>
+        <p class="sello-compacto-texto">Con Yohan, entrenador certificado</p>
+        <a href={instagram} rel="noopener noreferrer">
+          @{sitio.yohan.instagram}
+        </a>
+      </div>
+    ) : (
+      <div>
+        <p class="sello-nombre">
+          Yohan · <a href={instagram} rel="noopener noreferrer">@{sitio.yohan.instagram}</a>
+        </p>
+        <ul>
+          <li>
+            <svg class="check" viewBox="0 0 24 24" aria-hidden="true">
+              <path d="M4 12.5 9.2 17.8 20 6.2" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" />
+            </svg>
+            <span>
+              Entrenador certificado{' '}
+              <span class:list={{ 'marca-pendiente': certificadoPendiente }}>{sitio.yohan.certificado}</span>
+            </span>
+          </li>
+          <li>
+            <svg class="check" viewBox="0 0 24 24" aria-hidden="true">
+              <path d="M4 12.5 9.2 17.8 20 6.2" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" />
+            </svg>
+            <span>Carrera de nutrición</span>
+          </li>
+          <li>
+            <svg class="check" viewBox="0 0 24 24" aria-hidden="true">
+              <path d="M4 12.5 9.2 17.8 20 6.2" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" />
+            </svg>
+            <span>Competidor de powerlifting</span>
+          </li>
+          <li>
+            <svg class="check" viewBox="0 0 24 24" aria-hidden="true">
+              <path d="M4 12.5 9.2 17.8 20 6.2" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" />
+            </svg>
+            <span>Competidor de culturismo natural</span>
+          </li>
+        </ul>
+      </div>
+    )
+  }
+</aside>
