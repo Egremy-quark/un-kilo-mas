@@ -1,0 +1,47 @@
+---
+const pasos = [
+  {
+    titulo: 'En casa',
+    texto: 'Rutina 01, Base articular.',
+    duracion: '[Duración por Yohan]',
+    tinta: false,
+  },
+  {
+    titulo: 'En el gym',
+    texto: 'Rutina 02 y las calculadoras para saber cuánto cargar.',
+    duracion: '',
+    tinta: false,
+  },
+  {
+    titulo: 'Con Yohan',
+    texto: 'El coaching personal, cuando quieras que alguien ajuste tu plan.',
+    duracion: '',
+    tinta: true,
+  },
+] as const;
+---
+
+<section class="banda banda-hueso" id="camino" aria-labelledby="camino-titulo">
+  <div class="columna">
+    <h2 id="camino-titulo">El <em>camino</em></h2>
+    <ol class="camino-pasos">
+      {
+        pasos.map((paso) => (
+          <li class:list={['camino-paso', { 'camino-paso-tinta': paso.tinta }]}>
+            <span class="camino-punto" aria-hidden="true" />
+            <h3>{paso.titulo}</h3>
+            <p>
+              {paso.texto}
+              {paso.duracion ? (
+                <>
+                  {' '}
+                  <span class="pend">{paso.duracion}</span>
+                </>
+              ) : null}
+            </p>
+          </li>
+        ))
+      }
+    </ol>
+  </div>
+</section>

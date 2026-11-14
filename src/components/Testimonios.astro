@@ -5,10 +5,9 @@ import { testimoniosAutorizados, type Testimonio } from '../config/sitio';
 
 interface Props {
   limite?: number;
-  titulo?: boolean;
 }
 
-const { limite, titulo = false } = Astro.props;
+const { limite } = Astro.props;
 const archivos = import.meta.glob<{ default: ImageMetadata }>('../assets/testimonios/*.{jpg,jpeg,png,webp}', {
   eager: true,
 });
@@ -19,29 +18,30 @@ function fotoDe(nombre: string): ImageMetadata | undefined {
 }
 
 const lista = testimoniosAutorizados().slice(0, limite);
-const mostrarTitulo = titulo && lista.length > 0;
 
 function altDe(item: Testimonio): string {
   return `${item.nombre} antes y después de entrenar con Yohan`;
 }
+
+const nombresRestantes = lista
+  .slice(1)
+  .map((item) => item.nombre)
+  .join(', ')
+  .replace(/, ([^,]*)$/, ' y $1');
 ---
 
 {
   lista.length > 0 && (
-    <div class="testimonios" data-carrusel-raiz>
-      {
-        mostrarTitulo && (
-          <h2 id="testimonios-titulo">
-            Gente ocupada, <em>años de constancia</em>
-          </h2>
-        )
-      }
-      <div class="carrusel-pista testimonios-pista">
-        {
-          lista.map((item) => {
+    <section class="banda banda-blanco" id="casos" data-carrusel-raiz aria-labelledby="casos-titulo">
+      <div class="columna">
+        <h2 id="casos-titulo">
+          Gente ocupada, <em>años de constancia</em>
+        </h2>
+        <div class="carrusel-pista testimonios-pista">
+          {lista.map((item) => {
             const foto = fotoDe(item.foto);
             return (
-              <article class="carrusel-tarjeta testimonio-tarjeta">
+              <article class="card carrusel-tarjeta testimonio-tarjeta">
                 <div class="testimonio-foto">
                   {foto ? (
                     <Image
@@ -56,17 +56,18 @@ function altDe(item: Testimonio): string {
                     <p>{altDe(item)}</p>
                   )}
                 </div>
-                <p class="testimonio-nombre">{item.nombre}</p>
-                <p class="testimonio-perfil">{item.perfil}</p>
-                <p class="testimonio-texto">{item.texto}</p>
-                <p class="testimonio-tiempo">{item.tiempo}</p>
+                <div class="testimonio-cuerpo">
+                  <p class="testimonio-nombre">{item.nombre}</p>
+                  <p class="testimonio-texto">
+                    <b>{item.perfil}.</b> {item.texto}
+                  </p>
+                  <p class="testimonio-tiempo">{item.tiempo}</p>
+                </div>
               </article>
             );
-          })
-        }
-      </div>
-      {
-        lista.length > 1 && (
+          })}
+        </div>
+        {lista.length > 1 && (
           <div class="carrusel-controles">
             <div class="carrusel-puntos">
               {lista.map((item, indice) => (
@@ -80,13 +81,19 @@ function altDe(item: Testimonio): string {
               ))}
             </div>
           </div>
-        )
-      }
-      <p class="testimonios-aviso">
-        Clientes reales del coaching personal de Yohan, después de años de constancia. Cada cuerpo
-        avanza a su ritmo; esto no es una promesa de resultados.
-      </p>
-    </div>
+        )}
+        <p class="testimonios-aviso testimonios-aviso-movil">
+          {nombresRestantes ? `Desliza para ver a ${nombresRestantes}. ` : ''}
+          Clientes reales del coaching personal de Yohan, después de años de constancia. Cada cuerpo
+          avanza a su ritmo; esto no es una promesa de resultados.
+        </p>
+        <p class="testimonios-aviso testimonios-aviso-escritorio">
+          Clientes reales del coaching personal de Yohan, después de años de constancia. Cada cuerpo
+          avanza a su ritmo; esto no es una promesa de resultados. Se publican solo con su
+          autorización.
+        </p>
+      </div>
+    </section>
   )
 }
 

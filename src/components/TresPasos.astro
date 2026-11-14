@@ -1,0 +1,40 @@
+---
+const pilares = [
+  {
+    numero: '1',
+    titulo: 'Empiezas desde cero.',
+    texto:
+      'Muchos programas asumen que ya tuviste buena educación física. Aquí se empieza de verdad desde cero, en tu casa.',
+  },
+  {
+    numero: '2',
+    titulo: 'Avanzas con números.',
+    texto: 'Un kilo más, o una repetición más. Poquito, pero cada semana, y anotado.',
+  },
+  {
+    numero: '3',
+    titulo: 'Un entrenador real, cuando lo necesites.',
+    texto: 'Cuando quieras que alguien ajuste tu plan, entreno y alimentación, está Yohan.',
+  },
+] as const;
+---
+
+<section class="banda banda-hueso" id="que-es" aria-labelledby="que-es-titulo">
+  <div class="columna">
+    <h2 id="que-es-titulo">Un camino, <em>tres pasos</em></h2>
+    <ul class="pilares">
+      {
+        pilares.map((pilar) => (
+          <li class="card pilar">
+            <span class="pilar-numero" aria-hidden="true">
+              {pilar.numero}
+            </span>
+            <p>
+              <b>{pilar.titulo}</b> {pilar.texto}
+            </p>
+          </li>
+        ))
+      }
+    </ul>
+  </div>
+</section>

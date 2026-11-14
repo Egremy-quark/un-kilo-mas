@@ -1,106 +1,75 @@
 ---
-import GraficaMesociclo from './GraficaMesociclo.astro';
-import { capturaCorreoVisible } from '../config/sitio';
+import FormularioRutina from './FormularioRutina.astro';
+import { sitio } from '../config/sitio';
 import { rutina01 } from '../content/rutinas/01-base-articular';
-import { FASES_PROGRAMA } from '../datos/programa';
 import { esPendiente } from '../lib/pendiente';
 
-const tutorial = rutina01.tutorialUrl.trim();
-const formVisible = capturaCorreoVisible();
 const detalleListo = !esPendiente(rutina01.ejercicios);
 ---
 
-<section class="rama rama-rutina" id="rutina" aria-labelledby="rutina-titulo">
-  <p class="rama-kicker">La rutina gratis</p>
-  <h2 id="rutina-titulo">Empieza en tu casa. Llega al gym <em>listo</em>.</h2>
-  <p>
-    Muchos programas para principiantes asumen que ya tuviste una buena educación física. Yohan lo ve a
-    diario: la mayoría de la gente nunca la tuvo. Y a mucha gente le da pena o ansiedad entrar a un gym
-    sin saber qué hacer.
-  </p>
-
-  <GraficaMesociclo etiqueta="Mesociclo: primero en casa, después en el gimnasio." />
-
-  <ol class="fases">
-    {
-      FASES_PROGRAMA.map((fase) => (
-        <li>
-          <p class="fase-nombre">{fase.nombre}</p>
-          <h3>{fase.titulo}</h3>
-          <p class="fase-donde">{fase.donde}</p>
-          <p>{fase.texto}</p>
-        </li>
-      ))
-    }
-  </ol>
-  <p>Se termina la Rutina 01 antes de pasar a la Rutina 02.</p>
-  <p class="rama-cierre">Llegas al gym sabiendo qué hacer y qué mancuerna agarrar.</p>
-  <p>
-    Lo que Yohan ha visto en sus clientes: quienes terminan este bloque llegan al gym sabiendo llenar su
-    programa y progresar sus cargas, y con menos molestias.
-  </p>
-  {
-    tutorial && (
+<section class="banda banda-blanco" id="rutina" aria-labelledby="rutina-titulo">
+  <div class="columna rutina-interior">
+    <div class="rutina-texto">
+      <p class="kicker">La Rutina gratis</p>
+      <h2 id="rutina-titulo">Empieza en tu casa. <em>Llega al gym listo.</em></h2>
       <p>
-        <a href={tutorial} rel="noopener noreferrer">Tutorial de Yohan para la Rutina 01</a>
+        Muchos programas para principiantes asumen una base que la mayoría nunca tuvo. Yohan lo ve a
+        diario, y además a mucha gente le da pena entrar al gym sin saber qué hacer. Por eso este
+        camino empieza en casa.
       </p>
-    )
-  }
-
-  {
-    formVisible ? (
-      <form id="form-correo" class="caja-correo" novalidate>
-        <p>La Rutina 01, Base articular, a cambio de tu correo.</p>
-        <div class="campo">
-          <label for="correo">Correo</label>
-          <input id="correo" name="correo" type="email" inputmode="email" autocomplete="email" />
-        </div>
-        <div class="trampa" aria-hidden="true">
-          <label for="empresa">Empresa</label>
-          <input id="empresa" name="empresa" type="text" tabindex="-1" autocomplete="off" />
-        </div>
-        <label class="casilla">
-          <input id="aviso-privacidad" type="checkbox" name="aviso" />
-          <span>
-            Acepto el <a href="/privacidad">aviso de privacidad</a>.
-          </span>
-        </label>
-        <button class="boton" type="submit">Quiero la Rutina 01 gratis</button>
-        <p class="estado" id="correo-estado"></p>
-      </form>
-    ) : (
-      <p class="rutina-espera" role="status">La Rutina 01 se abre muy pronto.</p>
-    )
-  }
-
-  <section id="entrega-rutina" class="entrega-rutina" hidden aria-labelledby="entrega-titulo">
-    <p class="entrega-kicker">Rutina 01</p>
-    <h2 id="entrega-titulo">{rutina01.titulo}</h2>
-    <p>{rutina01.proposito}</p>
-    <ol class="entrega-pasos">
+      <div class="rutina-fases">
+        <article class="card rutina-fase rutina-fase-01">
+          <p class="kicker">
+            <span class="solo-movil">RUTINA 01 · EN CASA, SIN EQUIPO</span>
+            <span class="solo-escritorio">RUTINA 01 · EN CASA</span>
+          </p>
+          <h3>Base articular</h3>
+          <p>
+            <span class="solo-movil">Movilidad y estabilidad para preparar tus articulaciones antes de cargar peso.</span>
+            <span class="solo-escritorio">Movilidad y estabilidad antes de cargar peso.</span>
+          </p>
+        </article>
+        <span class="rutina-flecha" aria-hidden="true"></span>
+        <article class="card rutina-fase">
+          <p class="kicker">RUTINA 02 · EN EL GYM</p>
+          <h3>{sitio.programa.rutina02Nombre}</h3>
+          <p>
+            <span class="solo-movil">Los movimientos básicos y cómo progresar tus cargas.</span>
+            <span class="solo-escritorio">Los básicos y cómo progresar tus cargas.</span>
+          </p>
+        </article>
+      </div>
+      <p class="rutina-nota">Se termina la Rutina 01 antes de pasar a la 02.</p>
+      <p class="rutina-visto">
+        <b>Lo que Yohan ha visto:</b> quienes terminan este bloque llegan al gym sabiendo llenar su
+        programa y progresar sus cargas, y con menos molestias.
+      </p>
+    </div>
+    <FormularioRutina />
+    <section id="entrega-rutina" class="entrega-rutina" hidden aria-labelledby="entrega-titulo">
+      <p class="kicker">Rutina 01</p>
+      <h2 id="entrega-titulo">{rutina01.titulo}</h2>
+      <p>{rutina01.proposito}</p>
+      <ol class="entrega-pasos">
+        {
+          rutina01.pasos.map((paso) => (
+            <li>
+              <span>{paso.numero}</span>
+              {paso.titulo}
+            </li>
+          ))
+        }
+      </ol>
       {
-        rutina01.pasos.map((paso) => (
-          <li>
-            <span>{paso.numero}</span>
-            {paso.titulo}
-          </li>
-        ))
+        detalleListo && (
+          <div class="entrega-detalle">
+            <p>{rutina01.ejercicios}</p>
+            <p>{rutina01.series}</p>
+            <p>{rutina01.cargas}</p>
+            <p>{rutina01.duracion}</p>
+          </div>
+        )
       }
-    </ol>
-    {
-      detalleListo && (
-        <div class="entrega-detalle">
-          <p>{rutina01.ejercicios}</p>
-          <p>{rutina01.series}</p>
-          <p>{rutina01.cargas}</p>
-          <p>{rutina01.duracion}</p>
-        </div>
-      )
-    }
-  </section>
-
-  <p class="rama-siguiente">
-    Al terminar el bloque, el siguiente paso es el coaching.
-    <a class="hero-enlace" href="/coaching">Entrena con Yohan</a>
-  </p>
+    </section>
+  </div>
 </section>

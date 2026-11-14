@@ -1,12 +1,12 @@
 ---
 import Base from '../layouts/Base.astro';
-import Fuentes from '../components/Fuentes.astro';
+import Camino from '../components/Camino.astro';
 import Hero from '../components/Hero.astro';
-import QuienesSomos from '../components/QuienesSomos.astro';
 import RamaNutricion from '../components/RamaNutricion.astro';
 import RamaRutina from '../components/RamaRutina.astro';
 import Testimonios from '../components/Testimonios.astro';
-import { sitio, testimoniosAutorizados } from '../config/sitio';
+import TresPasos from '../components/TresPasos.astro';
+import { sitio } from '../config/sitio';
 import { ACTIVIDADES, type Actividad } from '../lib/calculos';
 import { esPendiente } from '../lib/pendiente';
 
@@ -20,23 +20,25 @@ const actividades = (Object.keys(ACTIVIDADES) as Actividad[]).map((id) => {
   };
 });
 const mostrarComida = !esPendiente(sitio.calculadoras.proteina.comidaMexicana);
-const hayTestimonios = testimoniosAutorizados().length > 0;
 ---
 
 <Base
   titulo="Llega al gym sabiendo qué hacer"
-  descripcion="Empieza gratis en tu casa, a tu ritmo y sin que nadie te vea. Te guía Yohan, entrenador certificado."
+  descripcion="Empieza gratis en tu casa, a tu ritmo y sin que nadie te vea. Después, en el gym, con un plan."
 >
-  <div class="columna portada">
-    <Hero />
-    <RamaRutina />
+  <Hero />
+  <Testimonios />
+  <TresPasos />
+  <RamaRutina />
+  <Camino />
 
-    <section id="calculadoras" class="calculadora" aria-label="Calculadoras">
+  <section id="calculadoras" class="banda banda-blanco calculadora" aria-label="Calculadoras">
+    <div class="columna">
       <div id="1rm" class="destino"></div>
       <div id="proteina" class="destino"></div>
       <div id="calorias" class="destino"></div>
 
-      <p class="calculadora-guia">Elige, escribe tus datos y listo.</p>
+      <h2>Calcula <em>lo básico</em></h2>
       <div id="pestanas" role="tablist" aria-label="Calculadoras" class="pestanas">
         <a role="tab" id="tab-1rm" href="#1rm" data-tab="1rm" aria-controls="panel-1rm" aria-selected="true" tabindex="0">1RM</a>
         <a role="tab" id="tab-proteina" href="#proteina" data-tab="proteina" aria-controls="panel-proteina" aria-selected="false" tabindex="-1">Proteína</a>
@@ -46,10 +48,6 @@ const hayTestimonios = testimoniosAutorizados().length > 0;
       <div class="calculadora-cuerpo">
         <div class="paneles">
           <div role="tabpanel" id="panel-1rm" data-panel="1rm" aria-labelledby="tab-1rm">
-            <p class="intro-1rm">
-              El peso máximo que podrías levantar una sola vez, estimado sin arriesgarte a intentarlo.
-              Sirve a quien ya entrena. El regalo principal es la rutina para empezar en casa.
-            </p>
             <form id="form-1rm" novalidate>
               <div class="campo">
                 <label id="etiqueta-peso-1rm" for="peso-1rm">Peso levantado (kg)</label>
@@ -181,47 +179,27 @@ const hayTestimonios = testimoniosAutorizados().length > 0;
           </div>
         </div>
       </div>
-      <script is:inline>
-        (function () {
-          var ids = ['1rm', 'proteina', 'calorias'];
-          var hash = location.hash.replace('#', '');
-          var id = ids.indexOf(hash) === -1 ? '1rm' : hash;
-          ids.forEach(function (candidato) {
-            var activo = candidato === id;
-            var panel = document.getElementById('panel-' + candidato);
-            var tab = document.getElementById('tab-' + candidato);
-            if (panel) panel.hidden = !activo;
-            if (tab) {
-              tab.setAttribute('aria-selected', activo ? 'true' : 'false');
-              tab.tabIndex = activo ? 0 : -1;
-            }
-          });
-        })();
-      </script>
-    </section>
-
-    {sitio.nutricion.activo && <RamaNutricion />}
-  </div>
-
-  <QuienesSomos />
-
-  <section class="puente">
-    <div class="columna puente-interior">
-      <p>¿Quieres que un entrenador ajuste esto contigo?</p>
-      <a class="boton" href="/coaching">Ver el coaching</a>
     </div>
-    {
-      hayTestimonios && (
-        <div class="puente-testimonios">
-          <div class="columna">
-            <Testimonios limite={3} />
-          </div>
-        </div>
-      )
-    }
+    <script is:inline>
+      (function () {
+        var ids = ['1rm', 'proteina', 'calorias'];
+        var hash = location.hash.replace('#', '');
+        var id = ids.indexOf(hash) === -1 ? '1rm' : hash;
+        ids.forEach(function (candidato) {
+          var activo = candidato === id;
+          var panel = document.getElementById('panel-' + candidato);
+          var tab = document.getElementById('tab-' + candidato);
+          if (panel) panel.hidden = !activo;
+          if (tab) {
+            tab.setAttribute('aria-selected', activo ? 'true' : 'false');
+            tab.tabIndex = activo ? 0 : -1;
+          }
+        });
+      })();
+    </script>
   </section>
 
-  <Fuentes />
+  {sitio.nutricion.activo && <RamaNutricion />}
 </Base>
 
 <script>

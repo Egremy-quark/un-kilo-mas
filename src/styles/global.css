@@ -6,6 +6,9 @@
   --naranja: #e07a3e;
   --gris: #5e615a;
   --linea: #e6e1d6;
+  --lima-clara: #b6e06a;
+  --naranja-claro: #fbe6d9;
+  --pie: #141512;
   color-scheme: light;
 }
 
@@ -137,18 +140,22 @@ button {
 }
 
 .columna {
-  width: min(1120px, calc(100% - 2rem));
+  width: min(1200px, calc(100% - 32px));
   margin-inline: auto;
 }
 
 @media (min-width: 960px) {
   .columna {
-    width: min(1120px, calc(100% - 4rem));
+    width: min(1200px, calc(100% - 48px));
   }
 }
 
 .cabecera {
+  position: sticky;
+  top: 0;
+  z-index: 20;
   background: var(--hueso);
+  border-bottom: 1px solid var(--linea);
 }
 
 .cabecera-interior {
@@ -156,17 +163,62 @@ button {
   align-items: center;
   justify-content: space-between;
   gap: 1rem;
-  min-height: 72px;
+  min-height: 64px;
+  padding-top: 14px;
+  padding-bottom: 14px;
 }
 
-.enlace-coaching {
-  flex: none;
-  font-weight: 700;
+.cabecera-nav {
+  display: none;
+  align-items: center;
+  gap: 22px;
+  margin-left: auto;
+  font-weight: 600;
+}
+
+.cabecera-nav a {
+  color: var(--tinta);
+  text-decoration: none;
+}
+
+.cabecera-nav a[aria-current='page'] {
+  text-decoration: underline;
 }
 
 .franja {
   height: 8px;
   background: var(--lima);
+}
+
+.pend {
+  color: var(--gris);
+  font-weight: 600;
+}
+
+.boton-compacto {
+  width: auto;
+  max-width: none;
+  min-height: 44px;
+  padding: 0 14px;
+  font-size: 16px;
+}
+
+@media (min-width: 960px) {
+  .cabecera-interior {
+    min-height: 72px;
+    padding-top: 16px;
+    padding-bottom: 16px;
+  }
+
+  .cabecera-nav {
+    display: flex;
+  }
+
+  .boton-compacto {
+    min-height: 48px;
+    padding: 0 28px;
+    font-size: 18px;
+  }
 }
 
 .logo-enlace {
@@ -231,17 +283,12 @@ button {
   color: var(--tinta);
 }
 
-main {
+.pagina {
+  padding-top: 1.5rem;
   padding-bottom: 3rem;
 }
 
-.portada,
-.pagina {
-  padding-top: 1.5rem;
-}
-
 @media (min-width: 960px) {
-  .portada,
   .pagina {
     padding-top: 2.5rem;
   }
@@ -254,7 +301,10 @@ main {
 
 .calculadora {
   position: relative;
-  margin-top: 2rem;
+}
+
+.calculadora.banda {
+  margin-top: 0;
 }
 
 .destino {

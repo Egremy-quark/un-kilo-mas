@@ -1,0 +1,49 @@
+---
+import { capturaCorreoVisible } from '../config/sitio';
+
+const activo = capturaCorreoVisible();
+---
+
+<form
+  id="form-correo"
+  class="form-rutina"
+  novalidate
+  data-activo={activo ? 'true' : 'false'}
+>
+  <label class="form-rutina-kicker" for="correo">Tu correo y te damos la Rutina 01 al momento</label>
+  <p class="form-rutina-titulo">Tu Rutina 01, al momento</p>
+  <div class="campo">
+    <label class="form-rutina-label" for="correo">Correo</label>
+    <input
+      id="correo"
+      name="correo"
+      type="email"
+      inputmode="email"
+      autocomplete="email"
+      placeholder="tucorreo@ejemplo.com"
+    />
+  </div>
+  {
+    activo && (
+      <div class="trampa" aria-hidden="true">
+        <label for="empresa">Empresa</label>
+        <input id="empresa" name="empresa" type="text" tabindex="-1" autocomplete="off" />
+      </div>
+    )
+  }
+  <label class="casilla casilla-clara">
+    <input id="aviso-privacidad" type="checkbox" name="aviso" />
+    <span>
+      Acepto el <a href="/privacidad">aviso de privacidad</a>.
+    </span>
+  </label>
+  {
+    activo ? (
+      <button class="boton" type="submit">Quiero la Rutina 01 gratis</button>
+    ) : (
+      <button class="boton" type="button">Quiero la Rutina 01 gratis</button>
+    )
+  }
+  <p class="form-rutina-nota pend">[Se activa cuando esté el aviso de privacidad]</p>
+  <p class="estado" id="correo-estado"></p>
+</form>

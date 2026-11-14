@@ -7,6 +7,7 @@ export function iniciarRutina(): void {
   const estadoNodo = document.getElementById('correo-estado');
   if (!(form instanceof HTMLFormElement) || !(estadoNodo instanceof HTMLParagraphElement)) return;
   const estado = estadoNodo;
+  if (form.dataset.activo !== 'true') return;
 
   form.addEventListener('submit', (evento) => {
     evento.preventDefault();

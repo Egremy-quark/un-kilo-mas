@@ -3,7 +3,9 @@ import { sitio } from '../config/sitio';
 import Logo from './Logo.astro';
 
 const ruta = Astro.url.pathname.replace(/\/$/, '') || '/';
+const enInicio = ruta === '/';
 const enCoaching = ruta === '/coaching';
+const a = (ancla: string) => (enInicio ? ancla : `/${ancla}`);
 ---
 
 <header class="cabecera">
@@ -11,7 +13,13 @@ const enCoaching = ruta === '/coaching';
     <a class="logo-enlace" href="/" aria-label={sitio.nombre}>
       <Logo />
     </a>
-    <a class="enlace-coaching" href="/coaching" aria-current={enCoaching ? 'page' : undefined}>Coaching</a>
+    <nav class="cabecera-nav" aria-label="Secciones">
+      <a href={a('#casos')}>Casos reales</a>
+      <a href={a('#rutina')}>Empieza gratis</a>
+      <a href={a('#calculadoras')}>Calculadoras</a>
+      <a href="/coaching" aria-current={enCoaching ? 'page' : undefined}>Coaching</a>
+    </nav>
+    <a class="boton boton-compacto" href={a('#rutina')}>Empieza gratis</a>
   </div>
+  <div class="franja" aria-hidden="true"></div>
 </header>
-<div class="franja" aria-hidden="true"></div>

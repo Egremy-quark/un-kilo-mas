@@ -3,7 +3,9 @@ import { mkdir } from 'node:fs/promises';
 
 const ANCHOS = [
   { nombre: '375', width: 375, height: 812 },
+  { nombre: '390', width: 390, height: 844 },
   { nombre: '1280', width: 1280, height: 900 },
+  { nombre: '1440', width: 1440, height: 900 },
 ] as const;
 
 async function listo(page: import('@playwright/test').Page): Promise<void> {
@@ -30,7 +32,8 @@ test('páginas y calculadoras con resultado', async ({ page }) => {
     await listo(page);
     await expect(page).toHaveTitle(/Llega al gym/);
     await expect(page.getByRole('heading', { level: 1 })).toContainText('sabiendo qué hacer');
-    await expect(page.getByText('La Rutina 01 se abre muy pronto.')).toBeVisible();
+    await expect(page.getByRole('link', { name: 'Empieza gratis' }).first()).toBeVisible();
+    await expect(page.getByText('[Se activa cuando esté el aviso de privacidad]')).toBeVisible();
     await page.screenshot({ path: `capturas/inicio-${vista.nombre}.png`, fullPage: true });
   }
 
