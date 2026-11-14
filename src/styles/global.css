@@ -154,6 +154,7 @@ button {
   position: sticky;
   top: 0;
   z-index: 20;
+  overflow: visible;
   background: var(--hueso);
   border-bottom: 1px solid var(--linea);
 }
@@ -177,12 +178,29 @@ button {
 }
 
 .cabecera-nav a {
+  position: relative;
   color: var(--tinta);
   text-decoration: none;
 }
 
+.cabecera-nav a::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  bottom: -6px;
+  width: 0;
+  height: 3px;
+  background: var(--lima);
+  transition: width 0.25s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.cabecera-nav a:hover::after,
+.cabecera-nav a[aria-current='page']::after {
+  width: 100%;
+}
+
 .cabecera-nav a[aria-current='page'] {
-  text-decoration: underline;
+  text-decoration: none;
 }
 
 .franja {
@@ -201,6 +219,7 @@ button {
   min-height: 44px;
   padding: 0 14px;
   font-size: 16px;
+  transform-origin: 100% 50%;
 }
 
 @media (min-width: 960px) {
@@ -471,10 +490,26 @@ select {
   line-height: 1.2;
   text-align: center;
   text-decoration: none;
+  transform-origin: center;
+  transition:
+    transform 0.22s cubic-bezier(0.22, 1, 0.36, 1),
+    box-shadow 0.22s ease,
+    background-color 0.22s ease;
 }
 
 .boton:hover {
   text-decoration: none;
+  transform: scale(1.08);
+  box-shadow: 0 10px 24px rgb(28 30 26 / 0.16);
+}
+
+.boton:active {
+  transform: scale(0.96);
+  box-shadow: none;
+}
+
+.boton.boton-compacto:hover {
+  transform: scale(1.1);
 }
 
 .boton:disabled {
@@ -482,6 +517,8 @@ select {
   color: var(--gris);
   border-color: var(--gris);
   cursor: not-allowed;
+  transform: none;
+  box-shadow: none;
 }
 
 .boton-secundario {
@@ -858,4 +895,38 @@ select {
 
 [hidden] {
   display: none !important;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  html.con-movimiento .js-entra:not(.es-visible) {
+    opacity: 0;
+    transform: translateY(18px);
+  }
+
+  html.con-movimiento .js-entra {
+    transition:
+      opacity 0.6s ease,
+      transform 0.6s cubic-bezier(0.22, 1, 0.36, 1);
+  }
+
+  html.con-movimiento .js-entra.es-visible {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .boton,
+  .boton-compacto {
+    transition: none;
+  }
+
+  .boton:hover,
+  .boton:active,
+  .boton.boton-compacto:hover,
+  .cabecera-nav a::after {
+    transform: none;
+    box-shadow: none;
+    transition: none;
+  }
 }

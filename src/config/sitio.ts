@@ -114,7 +114,7 @@ export const sitio: Sitio = {
       texto: 'Entrena 3 veces por semana y es muy disciplinada con su alimentación.',
       tiempo: 'Llevamos 6 años entrenando juntos.',
       foto: 'janeth.jpg',
-      autorizado: false,
+      autorizado: true,
     },
     {
       nombre: 'Erick',
@@ -122,7 +122,7 @@ export const sitio: Sitio = {
       texto: 'Contador por la tarde, atleta por la noche.',
       tiempo: 'Llevamos 5 años entrenando juntos.',
       foto: 'erick.jpg',
-      autorizado: false,
+      autorizado: true,
     },
     {
       nombre: 'Jimena',
@@ -130,7 +130,7 @@ export const sitio: Sitio = {
       texto: 'Entrena 3 veces por semana, 4 en vacaciones.',
       tiempo: 'Su cambio, en menos de un año.',
       foto: 'jimena.jpg',
-      autorizado: false,
+      autorizado: true,
     },
     {
       nombre: 'Deisy',
@@ -138,7 +138,7 @@ export const sitio: Sitio = {
       texto: 'Va al gym 4 veces por semana.',
       tiempo: 'Llevamos 5 años entrenando juntos.',
       foto: 'deisy.jpg',
-      autorizado: false,
+      autorizado: true,
     },
     {
       nombre: 'Luz',
@@ -146,7 +146,7 @@ export const sitio: Sitio = {
       texto: 'Muy temprano, 3 veces por semana, se vuelve una diosa de las pesas.',
       tiempo: 'Llevamos 4 años entrenando juntos.',
       foto: 'luz.jpg',
-      autorizado: false,
+      autorizado: true,
     },
     {
       nombre: 'César',
@@ -154,7 +154,7 @@ export const sitio: Sitio = {
       texto: 'Por la tarde, 4 veces por semana, se convierte en un monstruo de las pesas.',
       tiempo: 'Llevamos 5 años entrenando juntos.',
       foto: 'cesar.jpg',
-      autorizado: false,
+      autorizado: true,
     },
   ],
   coaching: {

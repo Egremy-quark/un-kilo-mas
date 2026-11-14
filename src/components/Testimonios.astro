@@ -38,10 +38,10 @@ const nombresRestantes = lista
           Gente ocupada, <em>años de constancia</em>
         </h2>
         <div class="carrusel-pista testimonios-pista">
-          {lista.map((item) => {
+          {lista.map((item, indice) => {
             const foto = fotoDe(item.foto);
             return (
-              <article class="card carrusel-tarjeta testimonio-tarjeta">
+              <article class:list={['card', 'carrusel-tarjeta', 'testimonio-tarjeta', { 'es-activa': indice === 0 }]}>
                 <div class="testimonio-foto">
                   {foto ? (
                     <Image

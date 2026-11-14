@@ -6,6 +6,7 @@ export function iniciarCarrusel(raiz: HTMLElement): void {
   const tarjetas = [...pista.querySelectorAll<HTMLElement>('.carrusel-tarjeta')];
   const puntos = [...raiz.querySelectorAll<HTMLButtonElement>('[data-indice]')];
   const reduce = window.matchMedia('(prefers-reduced-motion: reduce)');
+  const escritorio = window.matchMedia('(min-width: 960px)');
 
   function indiceVisible(): number {
     const vista = pista.scrollLeft + pista.clientWidth / 2;
@@ -24,6 +25,9 @@ export function iniciarCarrusel(raiz: HTMLElement): void {
 
   function marcar(): void {
     const activo = indiceVisible();
+    tarjetas.forEach((tarjeta, indice) => {
+      tarjeta.classList.toggle('es-activa', escritorio.matches || indice === activo);
+    });
     puntos.forEach((punto, indice) => {
       if (indice === activo) punto.setAttribute('aria-current', 'true');
       else punto.removeAttribute('aria-current');
@@ -49,5 +53,6 @@ export function iniciarCarrusel(raiz: HTMLElement): void {
   });
 
   pista.addEventListener('scroll', () => marcar(), { passive: true });
+  escritorio.addEventListener('change', marcar);
   marcar();
 }
