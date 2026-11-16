@@ -23,6 +23,8 @@ export interface Testimonio {
 export interface Sitio {
   nombre: string;
   dominio: string;
+  /** Subdominio de la plataforma. Mientras sea [POR DEFINIR], no hay «Entrar» ni envío. */
+  urlPlataforma: string;
   instagramMarca: string;
   yohan: {
     instagram: string;
@@ -72,12 +74,9 @@ export interface Sitio {
   privacidad: {
     secciones: SeccionPrivacidad[];
   };
-  app: {
-    /**
-     * Si es false, el público no entra a /app.
-     * Quien ya tiene cuenta con tipo_acceso distinto de ninguno puede iniciar sesión.
-     */
-    abiertaAlPublico: boolean;
+  captcha: {
+    /** Cloudflare Turnstile. Si es true, signInWithOtp manda captchaToken. */
+    activo: boolean;
   };
 }
 
@@ -85,6 +84,7 @@ export interface Sitio {
 export const sitio: Sitio = {
   nombre: 'Un Kilo Más',
   dominio: '[POR DEFINIR]',
+  urlPlataforma: '[POR DEFINIR]',
   instagramMarca: '[POR DEFINIR]',
   yohan: {
     instagram: 'yohantrainer',
@@ -101,8 +101,8 @@ export const sitio: Sitio = {
     },
   },
   /**
-   * Mientras sea false, o el aviso de privacidad tenga [POR DEFINIR],
-   * no se pide el correo. En México no se recogen correos sin aviso.
+   * Mientras sea false, o falte urlPlataforma, o el aviso tenga [POR DEFINIR],
+   * el formulario se ve pero no envía. En México no se recogen correos sin aviso.
    */
   correo: {
     activo: false,
@@ -224,8 +224,8 @@ export const sitio: Sitio = {
       { id: 'cambios', titulo: 'Cambios a este aviso', texto: '[POR DEFINIR]' },
     ],
   },
-  app: {
-    abiertaAlPublico: false,
+  captcha: {
+    activo: false,
   },
 };
 
@@ -233,9 +233,13 @@ export function avisoPrivacidadListo(): boolean {
   return !sitio.privacidad.secciones.some((seccion) => seccion.texto.includes('[POR DEFINIR]'));
 }
 
-/** El formulario de correo solo se muestra con interruptor y aviso de privacidad listos. */
+export function urlPlataformaLista(): boolean {
+  return !sitio.urlPlataforma.includes('[POR DEFINIR]') && /^https:\/\//.test(sitio.urlPlataforma);
+}
+
+/** El formulario envía solo con interruptor, aviso listo y URL de la plataforma. */
 export function capturaCorreoVisible(): boolean {
-  return sitio.correo.activo && avisoPrivacidadListo();
+  return sitio.correo.activo && avisoPrivacidadListo() && urlPlataformaLista();
 }
 
 export function testimoniosAutorizados(): Testimonio[] {

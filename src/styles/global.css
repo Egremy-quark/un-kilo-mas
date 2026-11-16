@@ -220,6 +220,19 @@ button {
   font-weight: 600;
 }
 
+.cabecera-entrar {
+  display: none;
+  align-items: center;
+  min-height: 44px;
+  margin-right: 4px;
+  padding: 0 8px;
+  color: var(--lima-tinta);
+  font-weight: 700;
+  font-size: 16px;
+  text-decoration: none;
+  white-space: nowrap;
+}
+
 .boton-compacto {
   width: auto;
   max-width: none;
@@ -241,6 +254,10 @@ button {
 
   .cabecera-nav {
     display: flex;
+  }
+
+  .cabecera-entrar {
+    display: inline-flex;
   }
 
   .boton-compacto {
@@ -951,6 +968,10 @@ select {
   min-height: 44px;
 }
 
+.pie-entrar {
+  display: inline-flex;
+}
+
 @media (min-width: 960px) {
   .pie {
     background: var(--tinta);
@@ -964,6 +985,10 @@ select {
 
   .pie-nav a {
     min-height: 0;
+  }
+
+  .pie-entrar {
+    display: none;
   }
 }
 

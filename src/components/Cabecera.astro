@@ -1,11 +1,13 @@
 ---
-import { sitio } from '../config/sitio';
+import { sitio, urlPlataformaLista } from '../config/sitio';
 import Logo from './Logo.astro';
 
 const ruta = Astro.url.pathname.replace(/\/$/, '') || '/';
 const enInicio = ruta === '/';
 const enCoaching = ruta === '/coaching';
 const a = (ancla: string) => (enInicio ? ancla : `/${ancla}`);
+const mostrarEntrar = urlPlataformaLista();
+const hrefEntrar = `${sitio.urlPlataforma.replace(/\/$/, '')}/entrar`;
 ---
 
 <header class="cabecera">
@@ -19,6 +21,11 @@ const a = (ancla: string) => (enInicio ? ancla : `/${ancla}`);
       <a href={a('#calculadoras')}>Calculadoras</a>
       <a class="cabecera-nav-siempre" href="/coaching" aria-current={enCoaching ? 'page' : undefined}>Coaching</a>
     </nav>
+    {
+      mostrarEntrar && (
+        <a class="cabecera-entrar" href={hrefEntrar}>Entrar</a>
+      )
+    }
     <a class="boton boton-compacto" href={a('#rutina')}>Empieza gratis</a>
   </div>
   <div class="franja" aria-hidden="true"></div>

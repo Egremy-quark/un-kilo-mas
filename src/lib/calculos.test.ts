@@ -1,4 +1,4 @@
-import { afterEach, describe, expect, it, vi } from 'vitest';
+import { describe, expect, it } from 'vitest';
 import { sitio } from '../config/sitio';
 import { lineas1rm } from '../datos/fuentes';
 import {
@@ -10,8 +10,6 @@ import {
   epley,
   mifflinStJeor,
 } from './calculos';
-import { enviarSuscripcion } from './correo';
-import { enviarConMailerLite } from './correo.mailerlite';
 import { formatearNumero } from './formato';
 
 describe('formato', () => {
@@ -149,49 +147,3 @@ describe('1RM mostrado', () => {
   });
 });
 
-describe('correo', () => {
-  afterEach(() => {
-    vi.unstubAllGlobals();
-  });
-
-  it('envía el correo al endpoint del servidor', async () => {
-    const fetchMock = vi.fn().mockResolvedValue({
-      ok: true,
-      json: async () => ({ ok: true, mensaje: 'Listo, aquí tienes tu Rutina 01.' }),
-    });
-    vi.stubGlobal('fetch', fetchMock);
-    const resultado = await enviarSuscripcion({
-      correo: 'ana@correo.com',
-      calculadora: '1rm',
-      resultado: '115 kg',
-      origen: { utm_source: 'instagram' },
-    });
-    expect(resultado.ok).toBe(true);
-    expect(resultado.mensaje).toBe('Listo, aquí tienes tu Rutina 01.');
-    expect(fetchMock).toHaveBeenCalledWith(
-      '/api/suscribir',
-      expect.objectContaining({ method: 'POST' }),
-    );
-  });
-
-  it('rechaza un correo inválido', async () => {
-    const fetchMock = vi.fn();
-    vi.stubGlobal('fetch', fetchMock);
-    const resultado = await enviarSuscripcion({ correo: 'no-es-correo' });
-    expect(resultado.ok).toBe(false);
-    expect(resultado.mensaje).toMatch(/correo válido/);
-    expect(fetchMock).not.toHaveBeenCalled();
-  });
-
-  it('no llama a MailerLite si falta la clave', async () => {
-    if (import.meta.env.MAILERLITE_API_KEY) return;
-    await expect(
-      enviarConMailerLite({
-        correo: 'ana@correo.com',
-        calculadora: '1rm',
-        resultado: '115 kg',
-        origen: {},
-      }),
-    ).rejects.toThrow(/MAILERLITE_API_KEY/);
-  });
-});

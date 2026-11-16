@@ -119,3 +119,57 @@ test('páginas y calculadoras con resultado', async ({ page }) => {
     await page.screenshot({ path: `capturas/privacidad-${vista.nombre}.png`, fullPage: true });
   }
 });
+
+const EXITO =
+  'Listo. Revisa tu correo y toca el enlace para entrar. Si no lo ves, busca en no deseados.';
+const ERROR = 'No pudimos crear tu cuenta. Inténtalo de nuevo en un momento.';
+
+test('formulario y cabecera a 390 y 1440', async ({ page }) => {
+  for (const vista of [
+    { nombre: '390', width: 390, height: 844 },
+    { nombre: '1440', width: 1440, height: 900 },
+  ] as const) {
+    await page.setViewportSize({ width: vista.width, height: vista.height });
+    await page.goto('/');
+    await listo(page);
+    await expect(page.getByRole('link', { name: 'Entrar', exact: true })).toHaveCount(0);
+    await page.locator('.cabecera').screenshot({ path: `capturas/cabecera-sin-entrar-${vista.nombre}.png` });
+    await page.locator('#form-correo').scrollIntoViewIfNeeded();
+    await page.locator('#form-correo').screenshot({ path: `capturas/formulario-normal-${vista.nombre}.png` });
+
+    await page.evaluate((texto) => {
+      const estado = document.getElementById('correo-estado');
+      if (estado) {
+        estado.classList.remove('estado-error');
+        estado.textContent = texto;
+      }
+    }, EXITO);
+    await page.locator('#form-correo').screenshot({ path: `capturas/formulario-exito-${vista.nombre}.png` });
+
+    await page.evaluate((texto) => {
+      const estado = document.getElementById('correo-estado');
+      if (estado) {
+        estado.classList.add('estado-error');
+        estado.textContent = texto;
+      }
+    }, ERROR);
+    await page.locator('#form-correo').screenshot({ path: `capturas/formulario-error-${vista.nombre}.png` });
+
+    await page.evaluate(() => {
+      const cabecera = document.querySelector('.cabecera-interior');
+      const pie = document.querySelector('.pie-nav');
+      const enlaceCabecera = document.createElement('a');
+      enlaceCabecera.className = 'cabecera-entrar';
+      enlaceCabecera.href = 'https://app.ejemplo.com/entrar';
+      enlaceCabecera.textContent = 'Entrar';
+      cabecera?.insertBefore(enlaceCabecera, cabecera.querySelector('.boton'));
+      const enlacePie = document.createElement('a');
+      enlacePie.className = 'pie-entrar';
+      enlacePie.href = 'https://app.ejemplo.com/entrar';
+      enlacePie.textContent = 'Entrar';
+      pie?.insertBefore(enlacePie, pie.firstChild);
+    });
+    await page.locator('.cabecera').screenshot({ path: `capturas/cabecera-con-entrar-${vista.nombre}.png` });
+    await page.locator('.pie').screenshot({ path: `capturas/pie-con-entrar-${vista.nombre}.png` });
+  }
+});

@@ -17,7 +17,7 @@ export default defineConfig({
     },
   ],
   webServer: {
-    command: 'python3 -m http.server 4477 --bind 127.0.0.1 --directory .vercel/output/static',
+    command: 'python3 -m http.server 4477 --bind 127.0.0.1 --directory dist',
     url: 'http://127.0.0.1:4477',
     reuseExistingServer: false,
     timeout: 120_000,

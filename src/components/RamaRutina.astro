@@ -1,10 +1,6 @@
 ---
 import FormularioRutina from './FormularioRutina.astro';
 import { sitio } from '../config/sitio';
-import { rutina01 } from '../content/rutinas/01-base-articular';
-import { esPendiente } from '../lib/pendiente';
-
-const detalleListo = !esPendiente(rutina01.ejercicios);
 ---
 
 <section class="banda banda-blanco" id="rutina" aria-labelledby="rutina-titulo">
@@ -46,30 +42,5 @@ const detalleListo = !esPendiente(rutina01.ejercicios);
       </p>
     </div>
     <FormularioRutina />
-    <section id="entrega-rutina" class="entrega-rutina" hidden aria-labelledby="entrega-titulo">
-      <p class="kicker">Rutina 01</p>
-      <h2 id="entrega-titulo">{rutina01.titulo}</h2>
-      <p>{rutina01.proposito}</p>
-      <ol class="entrega-pasos">
-        {
-          rutina01.pasos.map((paso) => (
-            <li>
-              <span>{paso.numero}</span>
-              {paso.titulo}
-            </li>
-          ))
-        }
-      </ol>
-      {
-        detalleListo && (
-          <div class="entrega-detalle">
-            <p>{rutina01.ejercicios}</p>
-            <p>{rutina01.series}</p>
-            <p>{rutina01.cargas}</p>
-            <p>{rutina01.duracion}</p>
-          </div>
-        )
-      }
-    </section>
   </div>
 </section>

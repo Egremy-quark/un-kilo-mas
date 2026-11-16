@@ -1,6 +1,6 @@
-import { enviarSuscripcion } from '../lib/correo';
+import { crearCuentaPrueba, MENSAJE_AVISO, MENSAJE_CORREO } from '../lib/cuenta';
+import { sitio } from '../config/sitio';
 import { medir } from '../lib/medicion';
-import { leerOrigen } from '../lib/origen';
 
 export function iniciarRutina(): void {
   const form = document.getElementById('form-correo');
@@ -13,29 +13,36 @@ export function iniciarRutina(): void {
     evento.preventDefault();
     const correo = document.querySelector<HTMLInputElement>('#correo');
     const aviso = document.querySelector<HTMLInputElement>('#aviso-privacidad');
+    const trampa = document.querySelector<HTMLInputElement>('[name="empresa"]');
     if (!correo || !aviso) return;
 
+    estado.classList.remove('estado-error');
     if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(correo.value.trim())) {
-      estado.textContent = 'Escribe un correo válido, por ejemplo ana@correo.com.';
+      estado.classList.add('estado-error');
+      estado.textContent = MENSAJE_CORREO;
       correo.focus();
       return;
     }
     if (!aviso.checked) {
-      estado.textContent = 'Para enviarlo, acepta el aviso de privacidad.';
+      estado.classList.add('estado-error');
+      estado.textContent = MENSAJE_AVISO;
       aviso.focus();
       return;
     }
 
-    void enviarSuscripcion({
+    const captchaToken = sitio.captcha.activo
+      ? document.querySelector<HTMLInputElement>('[name="captchaToken"]')?.value
+      : undefined;
+
+    void crearCuentaPrueba({
       correo: correo.value.trim(),
-      origen: leerOrigen(),
+      aviso: true,
+      trampa: trampa?.value ?? '',
+      captchaToken,
     }).then((respuesta) => {
+      estado.classList.toggle('estado-error', !respuesta.ok);
       estado.textContent = respuesta.mensaje;
-      if (respuesta.ok) {
-        medir('correo_enviado', { calculadora: 'rutina' });
-        const entrega = document.getElementById('entrega-rutina');
-        if (entrega) entrega.hidden = false;
-      }
+      if (respuesta.ok) medir('correo_enviado', { calculadora: 'rutina' });
     });
   });
 }
